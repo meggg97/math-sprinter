@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathSprinter - Speed Mental Math Trainer</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-mono-num {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        /* Custom subtle animations */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+        .animate-shake {
+            animation: shake 0.25s ease-in-out;
+        }
+        @keyframes pop {
+            0% { transform: scale(0.95); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+        .animate-pop {
+            animation: pop 0.2s ease-out;
+        }
+        /* Hide number input spinners */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col selection:bg-indigo-100 selection:text-indigo-700">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-10">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2.5 cursor-pointer" onclick="showView('view-setup')">
+                <div class="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-sm shadow-indigo-200">
+                    <i class="fa-solid fa-bolt text-base"></i>
+                </div>
+                <span class="font-extrabold text-xl tracking-tight text-slate-900">Math<span class="text-indigo-600">Sprinter</span></span>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <button onclick="showView('view-setup')" id="nav-btn-train" class="px-3 py-1.5 rounded-xl text-sm font-semibold bg-indigo-50 text-indigo-700 transition">
+                    <i class="fa-solid fa-play mr-1.5 text-xs"></i>Train
+                </button>
+                <button onclick="showView('view-dashboard')" id="nav-btn-stats" class="px-3 py-1.5 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100 transition">
+                    <i class="fa-solid fa-chart-line mr-1.5 text-xs"></i>Stats
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-3xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-10 flex flex-col justify-center">
+
+        <!-- ========================================== -->
+        <!-- VIEW 1: SPRINT CONFIGURATION (SETUP)       -->
+        <!-- ========================================== -->
+        <section id="view-setup" class="space-y-6 animate-pop">
+            <div class="text-center space-y-2 mb-6">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-700 uppercase tracking-wider">
+                    <i class="fa-solid fa-stopwatch"></i> Mental Agility Training
+                </span>
+                <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">Configure Your Sprint</h1>
+                <p class="text-slate-500 text-sm sm:text-base max-w-md mx-auto">Select an operation, difficulty level, and question count to test your calculation speed.</p>
+            </div>
+
+            <div class="bg-white rounded-3xl border border-slate-200/80 shadow-sm p-5 sm:p-8 space-y-7">
+                
+                <!-- Daily Global Challenge Banner -->
+                <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-indigo-600 via-indigo-700 to-violet-700 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-md shadow-indigo-200">
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-0.5 rounded-md bg-white/20 text-[10px] font-extrabold uppercase tracking-wider">Daily Challenge • <span id="daily-challenge-date">Today</span></span>
+                            <span class="text-xs text-indigo-100 font-medium">Same 10 Qs for everyone today</span>
+                        </div>
+                        <h2 class="font-extrabold text-lg leading-tight">Play Today's Global Sprint</h2>
+                        <p class="text-xs text-indigo-100/90">Test your speed on today's global set & see your worldwide percentile rank.</p>
+                    </div>
+                    <button type="button" onclick="startDailySprint()" class="w-full sm:w-auto px-5 py-3 bg-white text-indigo-700 hover:bg-indigo-50 active:scale-[0.98] font-extrabold text-sm rounded-xl shadow-sm transition flex items-center justify-center gap-2 shrink-0">
+                        <i class="fa-solid fa-fire text-amber-500"></i>
+                        <span>Play Daily</span>
+                    </button>
+                </div>
+
+                <!-- Step 1: Operation -->
+                <div class="space-y-3">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">1. Choose Operation</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="op-selector">
+                        <button type="button" onclick="selectOption('op', 'add', this)" class="op-btn active-opt p-4 rounded-2xl border-2 border-indigo-600 bg-indigo-50/60 text-indigo-700 flex flex-col items-center justify-center gap-1.5 transition">
+                            <i class="fa-solid fa-plus text-xl"></i>
+                            <span class="font-bold text-sm">Addition</span>
+                        </button>
+                        <button type="button" onclick="selectOption('op', 'sub', this)" class="op-btn p-4 rounded-2xl border-2 border-slate-200 hover:border-slate-300 text-slate-600 flex flex-col items-center justify-center gap-1.5 transition">
+                            <i class="fa-solid fa-minus text-xl"></i>
+                            <span class="font-bold text-sm">Subtraction</span>
+                        </button>
+                        <button type="button" onclick="selectOption('op', 'mul', this)" class="op-btn p-4 rounded-2xl border-2 border-slate-200 hover:border-slate-300 text-slate-600 flex flex-col items-center justify-center gap-1.5 transition">
+                            <i class="fa-solid fa-xmark text-xl"></i>
+                            <span class="font-bold text-sm">Multiply</span>
+                        </button>
+                        <button type="button" onclick="selectOption('op', 'div', this)" class="op-btn p-4 rounded-2xl border-2 border-slate-200 hover:border-slate-300 text-slate-600 flex flex-col items-center justify-center gap-1.5 transition">
+                            <i class="fa-solid fa-divide text-xl"></i>
+                            <span class="font-bold text-sm">Division</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Difficulty -->
+                <div class="space-y-3">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">2. Difficulty Tier</label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <button type="button" onclick="selectOption('diff', 'easy', this)" class="diff-btn active-opt py-3 px-4 rounded-2xl border-2 border-indigo-600 bg-indigo-50/60 text-indigo-700 font-bold text-sm transition text-center">
+                            Warmup
+                            <span class="block text-[11px] font-normal opacity-80 mt-0.5">1-Digit Focus</span>
+                        </button>
+                        <button type="button" onclick="selectOption('diff', 'medium', this)" class="diff-btn py-3 px-4 rounded-2xl border-2 border-slate-200 hover:border-slate-300 text-slate-600 font-bold text-sm transition text-center">
+                            Sprinter
+                            <span class="block text-[11px] font-normal opacity-80 mt-0.5">2-Digit Standard</span>
+                        </button>
+                        <button type="button" onclick="selectOption('diff', 'hard', this)" class="diff-btn py-3 px-4 rounded-2xl border-2 border-slate-200 hover:border-slate-300 text-slate-600 font-bold text-sm transition text-center">
+                            Pro Elite
+                            <span class="block text-[11px] font-normal opacity-80 mt-0.5">Large Numbers</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Sprint Length -->
+                <div class="space-y-3">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">3. Sprint Length</label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <button type="button" onclick="selectOption('count', 10, this)" class="count-btn active-opt py-2.5 px-4 rounded-2xl border-2 border-indigo-600 bg-indigo-50/60 text-indigo-700 font-bold text-sm transition">
+                            10 Questions
+                        </button>
+                        <button type="button" onclick="selectOption('count', 20, this)" class="count-btn py-2.5 px-4 rounded-2xl border-2 border-slate-200 hover:border-slate-300 text-slate-600 font-bold text-sm transition">
+                            20 Questions
+                        </button>
+                        <button type="button" onclick="selectOption('count', 30, this)" class="count-btn py-2.5 px-4 rounded-2xl border-2 border-slate-200 hover:border-slate-300 text-slate-600 font-bold text-sm transition">
+                            30 Questions
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Start Button -->
+                <div class="pt-2">
+                    <button onclick="startSprint()" class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-bold text-lg rounded-2xl shadow-lg shadow-indigo-200 transition flex items-center justify-center gap-2.5">
+                        <span>Start Sprint</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VIEW 2: ACTIVE WORKSPACE (DRILL)           -->
+        <!-- ========================================== -->
+        <section id="view-workspace" class="hidden space-y-6">
+            <!-- Top Bar: Progress, Timer, Skip & Quit -->
+            <div class="bg-white rounded-2xl border border-slate-200 p-4 flex items-center justify-between gap-3 shadow-sm">
+                <div class="flex items-center gap-3">
+                    <span id="quiz-counter" class="px-3 py-1 bg-slate-100 text-slate-700 rounded-xl text-xs font-bold font-mono-num">
+                        1 / 10
+                    </span>
+                    <div class="flex items-center gap-1.5 text-indigo-600 font-mono-num font-bold text-base sm:text-lg">
+                        <i class="fa-regular fa-clock text-sm"></i>
+                        <span id="quiz-timer">00:00.0</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button onclick="skipQuestion()" class="px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 rounded-xl text-xs font-bold transition flex items-center gap-1.5" title="Skip this problem">
+                        <span>Skip</span>
+                        <i class="fa-solid fa-forward text-[10px]"></i>
+                    </button>
+                    <button onclick="cancelDrill()" class="px-3 py-1.5 text-xs text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl font-semibold transition">
+                        Quit
+                    </button>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                <div id="quiz-progress-bar" class="bg-indigo-600 h-full transition-all duration-300 ease-out" style="width: 10%"></div>
+            </div>
+
+            <!-- Main Question Card -->
+            <div id="question-card" class="bg-white rounded-3xl border border-slate-200 shadow-sm p-8 sm:p-12 text-center space-y-8">
+                <div class="space-y-2">
+                    <span id="quiz-op-label" class="text-xs font-bold uppercase tracking-widest text-slate-400">Addition Sprint</span>
+                    <div id="question-display" class="text-5xl sm:text-7xl font-extrabold font-mono-num text-slate-900 tracking-tight py-4">
+                        14 + 28
+                    </div>
+                </div>
+
+                <!-- Answer Input Box -->
+                <div class="max-w-xs mx-auto space-y-3">
+                    <input 
+                        type="number" 
+                        id="answer-input" 
+                        inputmode="numeric"
+                        placeholder="?" 
+                        autocomplete="off"
+                        class="w-full text-center text-4xl sm:text-5xl font-bold font-mono-num py-4 px-6 rounded-2xl border-2 border-slate-300 focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 outline-none transition bg-slate-50 focus:bg-white text-slate-900"
+                    >
+                    <p class="text-xs text-slate-400 font-medium">Auto-submits as soon as you type the right answer</p>
+                </div>
+
+                <!-- Mobile On-Screen Numpad (Helpful on touch devices) -->
+                <div class="grid grid-cols-3 gap-2 max-w-xs mx-auto pt-2 sm:hidden">
+                    <button type="button" onclick="appendDigit('1')" class="py-3.5 bg-slate-100 active:bg-slate-200 rounded-xl font-mono-num font-bold text-xl">1</button>
+                    <button type="button" onclick="appendDigit('2')" class="py-3.5 bg-slate-100 active:bg-slate-200 rounded-xl font-mono-num font-bold text-xl">2</button>
+                    <button type="button" onclick="appendDigit('3')" class="py-3.5 bg-slate-100 active:bg-slate-200 rounded-xl font-mono-num font-bold text-xl">3</button>
+                    <button type="button" onclick="appendDigit('4')" class="py-3.5 bg-slate-100 active:bg-slate-200 rounded-xl font-mono-num font-bold text-xl">4</button>
+                    <button type="button" onclick="appendDigit('5')" class="py-3.5 bg-slate-100 active:bg-slate-200 rounded-xl font-mono-num font-bold text-xl">5</button>
+                    <button type="button" onclick="appendDigit('6')" class="py-3.5 bg-slate-100 active:bg-slate-200 rounded-xl font-mono-num font-bold text-xl">6</button>
+                    <button type="button" onclick="appendDigit('7')" class="py-3.5 bg-slate-100 active:bg-slate-200 rounded-xl font-mono-num font-bold text-xl">7</button>
+                    <button type="button" onclick="appendDigit('8')" class="py-3.5 bg-slate-100 active:bg-slate-200 rounded-xl font-mono-num font-bold text-xl">8</button>
+                    <button type="button" onclick="appendDigit('9')" class="py-3.5 bg-slate-100 active:bg-slate-200 rounded-xl font-mono-num font-bold text-xl">9</button>
+                    <button type="button" onclick="clearInput()" class="py-3.5 bg-rose-50 text-rose-600 active:bg-rose-100 rounded-xl font-bold text-sm">CLR</button>
+                    <button type="button" onclick="appendDigit('0')" class="py-3.5 bg-slate-100 active:bg-slate-200 rounded-xl font-mono-num font-bold text-xl">0</button>
+                    <button type="button" onclick="backspaceInput()" class="py-3.5 bg-slate-200 active:bg-slate-300 rounded-xl font-bold text-lg"><i class="fa-solid fa-delete-left"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VIEW 3: SPRINT RESULTS SUMMARY             -->
+        <!-- ========================================== -->
+        <section id="view-results" class="hidden space-y-6 animate-pop">
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-10 text-center space-y-6">
+                
+                <!-- Performance Badge -->
+                <div class="inline-flex flex-col items-center space-y-2">
+                    <div class="w-16 h-16 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-3xl shadow-sm">
+                        <i id="res-badge-icon" class="fa-solid fa-bolt text-amber-500"></i>
+                    </div>
+                    <span id="res-badge-title" class="text-xs font-extrabold tracking-widest uppercase text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">
+                        SPEED MASTER
+                    </span>
+                </div>
+
+                <div>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Sprint Complete!</h2>
+                    <p class="text-slate-500 text-sm mt-1">Your performance metrics have been saved locally on this device.</p>
+                </div>
+
+                <!-- 3 Key Stat Cards -->
+                <div class="grid grid-cols-3 gap-3 sm:gap-4 pt-2">
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/70">
+                        <span class="block text-xs font-semibold text-slate-400 uppercase">Total Time</span>
+                        <span id="res-time" class="block text-xl sm:text-2xl font-extrabold font-mono-num text-slate-900 mt-1">00:18.4</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/70">
+                        <span class="block text-xs font-semibold text-slate-400 uppercase">Accuracy</span>
+                        <span id="res-accuracy" class="block text-xl sm:text-2xl font-extrabold font-mono-num text-emerald-600 mt-1">100%</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/70">
+                        <span class="block text-xs font-semibold text-slate-400 uppercase">Avg Pace</span>
+                        <span id="res-speed" class="block text-xl sm:text-2xl font-extrabold font-mono-num text-indigo-600 mt-1">1.8s/Q</span>
+                    </div>
+                </div>
+
+                <!-- Worldwide Rank Banner (Zero-Data Percentile Calculation) -->
+                <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-md shadow-indigo-200 flex items-center justify-between gap-4 text-left">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-solid fa-earth-americas text-amber-300"></i>
+                        </div>
+                        <div>
+                            <span class="block text-[11px] font-bold uppercase tracking-wider text-indigo-100">Global Standing</span>
+                            <div id="res-global-rank" class="font-extrabold text-base sm:text-lg leading-tight">
+                                Faster than 94% of sprinters worldwide
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right shrink-0">
+                        <span id="res-global-tier" class="inline-block px-2.5 py-1 rounded-lg bg-white/20 font-mono-num font-extrabold text-xs sm:text-sm">
+                            Top 6%
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                    <button onclick="retryLastMode()" class="flex-1 py-3.5 px-6 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl shadow-md shadow-indigo-200 transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        <span>Run Again</span>
+                    </button>
+                    <button onclick="showView('view-dashboard')" class="flex-1 py-3.5 px-6 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-2xl transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-chart-simple"></i>
+                        <span>View Progress</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- VIEW 4: ANALYTICS DASHBOARD                -->
+        <!-- ========================================== -->
+        <section id="view-dashboard" class="hidden space-y-6 animate-pop">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Your Analytics</h2>
+                    <p class="text-slate-500 text-sm">Track your mastery and accuracy across operations.</p>
+                </div>
+                <button onclick="resetStatsPrompt()" class="text-xs font-semibold text-slate-400 hover:text-rose-600 px-3 py-1.5 rounded-xl hover:bg-rose-50 transition">
+                    Reset Data
+                </button>
+            </div>
+
+            <!-- Overview Cards -->
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
+                    <div class="flex items-center gap-2.5 text-slate-500 text-xs font-bold uppercase tracking-wider">
+                        <i class="fa-solid fa-fire text-amber-500 text-base"></i>
+                        <span>Completed Sprints</span>
+                    </div>
+                    <div id="dash-total-drills" class="text-3xl font-extrabold font-mono-num text-slate-900 mt-2">0 sets</div>
+                </div>
+                <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
+                    <div class="flex items-center gap-2.5 text-slate-500 text-xs font-bold uppercase tracking-wider">
+                        <i class="fa-solid fa-bullseye text-emerald-500 text-base"></i>
+                        <span>Overall Accuracy</span>
+                    </div>
+                    <div id="dash-overall-accuracy" class="text-3xl font-extrabold font-mono-num text-emerald-600 mt-2">0%</div>
+                </div>
+            </div>
+
+            <!-- Skill Breakdown Bars -->
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-5">
+                <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400">Operation Accuracy Breakdown</h3>
+                
+                <!-- Addition -->
+                <div class="space-y-1.5">
+                    <div class="flex justify-between text-sm font-bold">
+                        <span class="text-slate-700"><i class="fa-solid fa-plus text-indigo-500 w-5"></i> Addition</span>
+                        <span id="dash-add-pct" class="font-mono-num text-slate-600">No data</span>
+                    </div>
+                    <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                        <div id="dash-add-bar" class="bg-indigo-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Subtraction -->
+                <div class="space-y-1.5">
+                    <div class="flex justify-between text-sm font-bold">
+                        <span class="text-slate-700"><i class="fa-solid fa-minus text-indigo-500 w-5"></i> Subtraction</span>
+                        <span id="dash-sub-pct" class="font-mono-num text-slate-600">No data</span>
+                    </div>
+                    <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                        <div id="dash-sub-bar" class="bg-indigo-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Multiplication -->
+                <div class="space-y-1.5">
+                    <div class="flex justify-between text-sm font-bold">
+                        <span class="text-slate-700"><i class="fa-solid fa-xmark text-indigo-500 w-5"></i> Multiplication</span>
+                        <span id="dash-mul-pct" class="font-mono-num text-slate-600">No data</span>
+                    </div>
+                    <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                        <div id="dash-mul-bar" class="bg-indigo-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Division -->
+                <div class="space-y-1.5">
+                    <div class="flex justify-between text-sm font-bold">
+                        <span class="text-slate-700"><i class="fa-solid fa-divide text-indigo-500 w-5"></i> Division</span>
+                        <span id="dash-div-pct" class="font-mono-num text-slate-600">No data</span>
+                    </div>
+                    <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                        <div id="dash-div-bar" class="bg-indigo-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="showView('view-setup')" class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl shadow-md shadow-indigo-200 transition">
+                Start New Sprint
+            </button>
+        </section>
+
+    </main>
+
+    <!-- Custom Confirmation Modal (Replaces native confirm/alert) -->
+    <div id="custom-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-xl border border-slate-100 space-y-4 animate-pop">
+            <h3 id="modal-title" class="text-lg font-extrabold text-slate-900">Reset Progress?</h3>
+            <p id="modal-desc" class="text-sm text-slate-500">This will permanently clear all your saved sprint stats and accuracy records.</p>
+            <div class="flex gap-3 pt-2">
+                <button onclick="closeModal()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-sm transition">Cancel</button>
+                <button id="modal-confirm-btn" class="flex-1 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-sm transition">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // STATE MANAGEMENT
+        // ==========================================
+        let selectedOp = 'add';
+        let selectedDiff = 'easy';
+        let selectedCount = 10;
+        let isDailyMode = false;
+        let dailyProblems = [];
+        let questionResults = []; // Tracks true (solved) or false (skipped)
+
+        let currentQuestionIndex = 0;
+        let correctAnswersCount = 0;
+        let currentAnswer = 0;
+        let timerInterval = null;
+        let startTime = 0;
+        let elapsedSeconds = 0;
+
+        // Calculate deterministic Daily Challenge Date & Seed
+        function getDailySeedInfo() {
+            const now = new Date();
+            const dateLabel = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            const seed = now.getFullYear() * 10000 + (now.getMonth() + 1) * 100 + now.getDate();
+            return { dateLabel, seed };
+        }
+
+        // Seeded PRNG (Mulberry32) so every player gets identical Daily Sprint questions
+        function createSeededRng(seed) {
+            return function() {
+                let t = seed += 0x6D2B79F5;
+                t = Math.imul(t ^ t >>> 15, t | 1);
+                t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+                return ((t ^ t >>> 14) >>> 0) / 4294967296;
+            };
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const { dateLabel } = getDailySeedInfo();
+            const badgeEl = document.getElementById('daily-challenge-date');
+            if (badgeEl) badgeEl.innerText = dateLabel;
+        });
+
+        const opNames = {
+            add: 'Addition Sprint',
+            sub: 'Subtraction Sprint',
+            mul: 'Multiplication Sprint',
+            div: 'Division Sprint'
+        };
+
+        // ==========================================
+        // NAVIGATION & UI SELECTION
+        // ==========================================
+        function showView(viewId) {
+            ['view-setup', 'view-workspace', 'view-results', 'view-dashboard'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(viewId).classList.remove('hidden');
+
+            // Update Nav Button Styling
+            const btnTrain = document.getElementById('nav-btn-train');
+            const btnStats = document.getElementById('nav-btn-stats');
+
+            if (viewId === 'view-dashboard') {
+                loadDashboardStats();
+                btnStats.className = "px-3 py-1.5 rounded-xl text-sm font-semibold bg-indigo-50 text-indigo-700 transition";
+                btnTrain.className = "px-3 py-1.5 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100 transition";
+            } else {
+                btnTrain.className = "px-3 py-1.5 rounded-xl text-sm font-semibold bg-indigo-50 text-indigo-700 transition";
+                btnStats.className = "px-3 py-1.5 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100 transition";
+            }
+        }
+
+        function selectOption(type, value, btnElement) {
+            let groupClass = '';
+            if (type === 'op') {
+                selectedOp = value;
+                groupClass = '.op-btn';
+            } else if (type === 'diff') {
+                selectedDiff = value;
+                groupClass = '.diff-btn';
+            } else if (type === 'count') {
+                selectedCount = value;
+                groupClass = '.count-btn';
+            }
+
+            document.querySelectorAll(groupClass).forEach(btn => {
+                btn.classList.remove('border-indigo-600', 'bg-indigo-50/60', 'text-indigo-700');
+                btn.classList.add('border-slate-200', 'text-slate-600');
+            });
+
+            btnElement.classList.remove('border-slate-200', 'text-slate-600');
+            btnElement.classList.add('border-indigo-600', 'bg-indigo-50/60', 'text-indigo-700');
+        }
+
+        // ==========================================
+        // PROBLEM GENERATOR ENGINE
+        // ==========================================
+        function randInt(min, max, rngFn = Math.random) {
+            return Math.floor(rngFn() * (max - min + 1)) + min;
+        }
+
+        function buildSingleProblem(op, diff, rngFn = Math.random) {
+            let a, b, symbol, ans;
+
+            if (op === 'add') {
+                symbol = '+';
+                if (diff === 'easy') { a = randInt(2, 15, rngFn); b = randInt(2, 15, rngFn); }
+                else if (diff === 'medium') { a = randInt(12, 65, rngFn); b = randInt(12, 65, rngFn); }
+                else { a = randInt(45, 250, rngFn); b = randInt(45, 250, rngFn); }
+                ans = a + b;
+            } 
+            else if (op === 'sub') {
+                symbol = '−';
+                if (diff === 'easy') { a = randInt(8, 25, rngFn); b = randInt(2, a - 1, rngFn); }
+                else if (diff === 'medium') { a = randInt(30, 99, rngFn); b = randInt(11, a - 5, rngFn); }
+                else { a = randInt(100, 400, rngFn); b = randInt(35, a - 15, rngFn); }
+                ans = a - b;
+            } 
+            else if (op === 'mul') {
+                symbol = '×';
+                if (diff === 'easy') { a = randInt(2, 9, rngFn); b = randInt(2, 9, rngFn); }
+                else if (diff === 'medium') { a = randInt(6, 15, rngFn); b = randInt(4, 12, rngFn); }
+                else { a = randInt(12, 25, rngFn); b = randInt(6, 15, rngFn); }
+                ans = a * b;
+            } 
+            else if (op === 'div') {
+                symbol = '÷';
+                let divisor, quotient;
+                if (diff === 'easy') { divisor = randInt(2, 9, rngFn); quotient = randInt(2, 9, rngFn); }
+                else if (diff === 'medium') { divisor = randInt(4, 12, rngFn); quotient = randInt(5, 15, rngFn); }
+                else { divisor = randInt(6, 18, rngFn); quotient = randInt(8, 22, rngFn); }
+                a = divisor * quotient;
+                b = divisor;
+                ans = quotient;
+            }
+
+            return { text: `${a} ${symbol} ${b}`, answer: ans, op };
+        }
+
+        function generateProblem() {
+            if (isDailyMode && dailyProblems[currentQuestionIndex - 1]) {
+                const item = dailyProblems[currentQuestionIndex - 1];
+                currentAnswer = item.answer;
+                document.getElementById('question-display').innerText = item.text;
+                return;
+            }
+
+            const item = buildSingleProblem(selectedOp, selectedDiff);
+            currentAnswer = item.answer;
+            document.getElementById('question-display').innerText = item.text;
+        }
+
+        // ==========================================
+        // SPRINT EXECUTION & TIMER
+        // ==========================================
+        function startDailySprint() {
+            isDailyMode = true;
+            selectedCount = 10;
+            const { dateLabel, seed } = getDailySeedInfo();
+            const rng = createSeededRng(seed);
+            const opsCycle = ['add', 'sub', 'mul', 'div'];
+            dailyProblems = [];
+
+            for (let i = 0; i < 10; i++) {
+                const op = opsCycle[i % 4];
+                const diff = i < 4 ? 'easy' : 'medium';
+                dailyProblems.push(buildSingleProblem(op, diff, rng));
+            }
+
+            currentQuestionIndex = 0;
+            correctAnswersCount = 0;
+            questionResults = [];
+            elapsedSeconds = 0;
+
+            document.getElementById('quiz-op-label').innerText = `Daily Global Challenge • ${dateLabel}`;
+            showView('view-workspace');
+            nextProblem();
+            startTimer();
+
+            const input = document.getElementById('answer-input');
+            input.value = '';
+            setTimeout(() => input.focus(), 50);
+        }
+
+        function startSprint() {
+            isDailyMode = false;
+            currentQuestionIndex = 0;
+            correctAnswersCount = 0;
+            questionResults = [];
+            elapsedSeconds = 0;
+
+            document.getElementById('quiz-op-label').innerText = opNames[selectedOp];
+            showView('view-workspace');
+            nextProblem();
+            startTimer();
+
+            const input = document.getElementById('answer-input');
+            input.value = '';
+            setTimeout(() => input.focus(), 50);
+        }
+
+        function retryLastMode() {
+            if (isDailyMode) startDailySprint();
+            else startSprint();
+        }
+
+        function nextProblem() {
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex > selectedCount) {
+                finishDrill();
+                return;
+            }
+
+            document.getElementById('quiz-counter').innerText = `${currentQuestionIndex} / ${selectedCount}`;
+            const progressPct = ((currentQuestionIndex - 1) / selectedCount) * 100;
+            document.getElementById('quiz-progress-bar').style.width = `${progressPct}%`;
+
+            const input = document.getElementById('answer-input');
+            input.value = '';
+            input.focus();
+
+            generateProblem();
+        }
+
+        function skipQuestion() {
+            questionResults.push(false);
+            // Visual feedback for skip
+            const card = document.getElementById('question-card');
+            card.classList.remove('animate-shake');
+            void card.offsetWidth; // trigger reflow
+            card.classList.add('animate-shake');
+            nextProblem();
+        }
+
+        function startTimer() {
+            stopTimer();
+            startTime = performance.now();
+            timerInterval = setInterval(() => {
+                elapsedSeconds = (performance.now() - startTime) / 1000;
+                const mins = Math.floor(elapsedSeconds / 60).toString().padStart(2, '0');
+                const secs = (elapsedSeconds % 60).toFixed(1).padStart(4, '0');
+                document.getElementById('quiz-timer').innerText = `${mins}:${secs}`;
+            }, 100);
+        }
+
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        function cancelDrill() {
+            stopTimer();
+            showView('view-setup');
+        }
+
+        // Auto-verify input listener
+        document.getElementById('answer-input').addEventListener('input', function(e) {
+            const val = parseInt(e.target.value, 10);
+            if (!isNaN(val) && val === currentAnswer) {
+                correctAnswersCount++;
+                questionResults.push(true);
+                // Subtle green flash on correct
+                e.target.classList.add('border-emerald-500', 'bg-emerald-50');
+                setTimeout(() => {
+                    e.target.classList.remove('border-emerald-500', 'bg-emerald-50');
+                    nextProblem();
+                }, 90);
+            }
+        });
+
+        // Mobile Numpad Helpers
+        function appendDigit(digit) {
+            const input = document.getElementById('answer-input');
+            input.value += digit;
+            input.dispatchEvent(new Event('input'));
+        }
+        function clearInput() {
+            const input = document.getElementById('answer-input');
+            input.value = '';
+        }
+        function backspaceInput() {
+            const input = document.getElementById('answer-input');
+            input.value = input.value.slice(0, -1);
+        }
+
+        // ==========================================
+        // RESULTS & LOCAL STORAGE ANALYTICS
+        // ==========================================
+        function finishDrill() {
+            stopTimer();
+            document.getElementById('quiz-progress-bar').style.width = `100%`;
+
+            const totalTime = Math.max(elapsedSeconds, 0.1);
+            const avgSpeed = (totalTime / selectedCount).toFixed(1);
+            const accuracy = Math.round((correctAnswersCount / selectedCount) * 100);
+
+            const mins = Math.floor(totalTime / 60).toString().padStart(2, '0');
+            const secs = (totalTime % 60).toFixed(1).padStart(4, '0');
+
+            document.getElementById('res-time').innerText = `${mins}:${secs}`;
+            document.getElementById('res-accuracy').innerText = `${accuracy}%`;
+            document.getElementById('res-speed').innerText = `${avgSpeed}s/Q`;
+
+            let badgeLabel = "STEADY PROGRESS";
+            // Dynamic Badge Logic
+            if (accuracy >= 90 && avgSpeed <= 2.2) {
+                badgeLabel = "LIGHTNING GENIUS";
+                document.getElementById('res-badge-title').innerText = badgeLabel;
+                document.getElementById('res-badge-icon').className = "fa-solid fa-bolt text-amber-500";
+            } else if (accuracy >= 80 && avgSpeed <= 3.8) {
+                badgeLabel = "SPEED MASTER";
+                document.getElementById('res-badge-title').innerText = badgeLabel;
+                document.getElementById('res-badge-icon').className = "fa-solid fa-gauge-high text-emerald-600";
+            } else {
+                document.getElementById('res-badge-title').innerText = badgeLabel;
+                document.getElementById('res-badge-icon').className = "fa-solid fa-bullseye text-indigo-600";
+            }
+
+            // Calculate Worldwide Percentile Rank (Zero-Data Statistical Curve)
+            const globalPercentile = calculateGlobalPercentile(parseFloat(avgSpeed), accuracy);
+            const topPct = Math.max(1, 100 - globalPercentile);
+            document.getElementById('res-global-rank').innerText = `Faster than ${globalPercentile}% of sprinters worldwide`;
+            document.getElementById('res-global-tier').innerText = `Top ${topPct}%`;
+
+            if (isDailyMode) {
+                dailyProblems.forEach((p, idx) => {
+                    saveToLocalStorage(p.op, 1, questionResults[idx] ? 1 : 0, idx === 0);
+                });
+            } else {
+                saveToLocalStorage(selectedOp, selectedCount, correctAnswersCount, true);
+            }
+            showView('view-results');
+        }
+
+        function calculateGlobalPercentile(avgSecPerQ, accuracyPct) {
+            // Benchmark curve: 1.2s/Q = ~99%, 2.2s/Q = ~90%, 3.5s/Q = ~72%, 5.0s/Q = ~50%, 8.0s/Q = ~22%
+            const speedScore = 100 / (1 + Math.pow(avgSecPerQ / 4.8, 2.1));
+            const accuracyFactor = Math.pow(accuracyPct / 100, 1.35);
+            const rawPercentile = Math.round(speedScore * accuracyFactor);
+            return Math.min(99, Math.max(5, rawPercentile));
+        }
+
+        function saveToLocalStorage(op, totalQuestions, correctCount, incrementSet = true) {
+            try {
+                let stats = JSON.parse(localStorage.getItem('mathsprinter_data')) || {
+                    totalDrills: 0,
+                    skills: {
+                        add: { attempted: 0, correct: 0 },
+                        sub: { attempted: 0, correct: 0 },
+                        mul: { attempted: 0, correct: 0 },
+                        div: { attempted: 0, correct: 0 }
+                    }
+                };
+
+                if (incrementSet) stats.totalDrills += 1;
+                stats.skills[op].attempted += totalQuestions;
+                stats.skills[op].correct += correctCount;
+
+                localStorage.setItem('mathsprinter_data', JSON.stringify(stats));
+            } catch (err) {
+                console.error("Failed to save stats:", err);
+            }
+        }
+
+        function loadDashboardStats() {
+            try {
+                const stats = JSON.parse(localStorage.getItem('mathsprinter_data')) || {
+                    totalDrills: 0,
+                    skills: {
+                        add: { attempted: 0, correct: 0 },
+                        sub: { attempted: 0, correct: 0 },
+                        mul: { attempted: 0, correct: 0 },
+                        div: { attempted: 0, correct: 0 }
+                    }
+                };
+
+                document.getElementById('dash-total-drills').innerText = `${stats.totalDrills} sets`;
+
+                let grandAttempted = 0;
+                let grandCorrect = 0;
+
+                ['add', 'sub', 'mul', 'div'].forEach(op => {
+                    const sk = stats.skills[op];
+                    const correct = sk.correct !== undefined ? sk.correct : 0;
+                    let pct = 0;
+
+                    if (sk.attempted > 0) {
+                        pct = Math.round((correct / sk.attempted) * 100);
+                        grandAttempted += sk.attempted;
+                        grandCorrect += correct;
+                    }
+
+                    document.getElementById(`dash-${op}-pct`).innerText = sk.attempted > 0 ? `${pct}%` : 'No data';
+                    document.getElementById(`dash-${op}-bar`).style.width = `${pct}%`;
+                });
+
+                const overallPct = grandAttempted > 0 ? Math.round((grandCorrect / grandAttempted) * 100) : 0;
+                document.getElementById('dash-overall-accuracy').innerText = `${overallPct}%`;
+            } catch (err) {
+                console.error("Failed to load stats:", err);
+            }
+        }
+
+        // Custom Modal Handlers
+        function resetStatsPrompt() {
+            const modal = document.getElementById('custom-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.getElementById('modal-confirm-btn').onclick = () => {
+                localStorage.removeItem('mathsprinter_data');
+                loadDashboardStats();
+                closeModal();
+            };
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('custom-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    </script>
+</body>
+</html>
