@@ -322,7 +322,17 @@
                         </span>
                     </div>
                 </div>
-
+<!-- Share Scorecard Row -->
+                <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                    <button id="share-score-btn" onclick="shareScoreCard(false)" class="flex-1 py-3.5 px-6 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-bold rounded-2xl shadow-md shadow-emerald-200 transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-share-nodes"></i>
+                        <span>Share Scorecard</span>
+                    </button>
+                    <button onclick="shareScoreCard(true)" class="py-3.5 px-5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-2xl transition flex items-center justify-center gap-2" title="Download PNG Scorecard">
+                        <i class="fa-solid fa-download"></i>
+                        <span>Save PNG</span>
+                    </button>
+                </div>
                 <!-- Action Buttons -->
                 <div class="flex flex-col sm:flex-row gap-3 pt-2">
                     <button onclick="retryLastMode()" class="flex-1 py-3.5 px-6 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl shadow-md shadow-indigo-200 transition flex items-center justify-center gap-2">
@@ -867,6 +877,189 @@
         window.va = window.va || function () { 
             (window.vaq = window.vaq || []).push(arguments); 
         };
+// ==========================================
+        // LIGHT-MODE SCORECARD GENERATOR & SHARING
+        // ==========================================
+        function buildScoreCanvas() {
+            const { dateLabel } = getDailySeedInfo();
+            const isoDate = new Date().toISOString().split('T')[0];
+
+            // Pull exact values from your active sprint state & DOM
+            const totalTimeText = document.getElementById('res-time')?.innerText || `${elapsedSeconds.toFixed(1)}s`;
+            const accuracyText = document.getElementById('res-accuracy')?.innerText || `${Math.round((correctAnswersCount / selectedCount) * 100)}%`;
+            const paceText = document.getElementById('res-speed')?.innerText || `${(elapsedSeconds / selectedCount).toFixed(1)}s/Q`;
+            const globalTierText = document.getElementById('res-global-tier')?.innerText || 'Top 10%';
+
+            const modeTitle = isDailyMode
+                ? `Daily Global Sprint • ${dateLabel}`
+                : `${opNames[selectedOp] || 'Custom Sprint'} (${selectedDiff.toUpperCase()})`;
+
+            const canvas = document.createElement('canvas');
+            canvas.width = 900;
+            canvas.height = 640;
+            const ctx = canvas.getContext('2d');
+
+            // 1. Clean Light Background (Matches bg-white / border-slate-200)
+            ctx.fillStyle = '#ffffff';
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.roundRect(2, 2, 896, 636, 32);
+            ctx.fill();
+            ctx.stroke();
+
+            // 2. Top Brand Header (MathSprinter + Mode Pill)
+            ctx.fillStyle = '#4f46e5'; // indigo-600
+            ctx.beginPath();
+            ctx.roundRect(44, 38, 42, 42, 12);
+            ctx.fill();
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '800 22px Inter, system-ui, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('⚡', 65, 67);
+
+            ctx.textAlign = 'left';
+            ctx.fillStyle = '#0f172a';
+            ctx.font = '800 24px Inter, system-ui, sans-serif';
+            ctx.fillText('Math', 98, 67);
+            const mathWidth = ctx.measureText('Math').width;
+            ctx.fillStyle = '#4f46e5';
+            ctx.fillText('Sprinter', 98 + mathWidth, 67);
+
+            // Right Mode Pill
+            ctx.fillStyle = '#eef2ff';
+            ctx.beginPath();
+            ctx.roundRect(536, 40, 320, 38, 19);
+            ctx.fill();
+            ctx.fillStyle = '#4338ca';
+            ctx.font = '700 16px Inter, system-ui, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(modeTitle, 696, 65);
+
+            // 3. Main Hero Card (Total Time + Global Standing)
+            ctx.fillStyle = '#f8fafc'; // slate-50
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.roundRect(44, 104, 812, 250, 24);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.fillStyle = '#64748b';
+            ctx.font = '700 16px Inter, system-ui, sans-serif';
+            ctx.fillText('TOTAL SPRINT TIME', 450, 148);
+
+            ctx.fillStyle = '#0f172a';
+            ctx.font = '700 96px "JetBrains Mono", monospace';
+            ctx.fillText(totalTimeText, 450, 252);
+
+            // Global Standing Pill inside Hero Card
+            ctx.fillStyle = '#4f46e5';
+            ctx.beginPath();
+            ctx.roundRect(275, 282, 350, 42, 14);
+            ctx.fill();
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '700 18px Inter, system-ui, sans-serif';
+            ctx.fillText(`🌍 Global Standing: ${globalTierText}`, 450, 309);
+
+            // 4. Three Stat Boxes (Solved, Accuracy, Avg Pace)
+            const stats = [
+                { label: 'SOLVED', value: `${correctAnswersCount}/${selectedCount}`, color: '#0f172a' },
+                { label: 'ACCURACY', value: accuracyText, color: '#059669' },
+                { label: 'AVG PACE', value: paceText, color: '#4f46e5' }
+            ];
+
+            stats.forEach((stat, i) => {
+                const x = 44 + i * 280;
+                ctx.fillStyle = '#f8fafc';
+                ctx.strokeStyle = '#e2e8f0';
+                ctx.beginPath();
+                ctx.roundRect(x, 376, 252, 128, 20);
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = '700 15px Inter, system-ui, sans-serif';
+                ctx.fillText(stat.label, x + 126, 416);
+
+                ctx.fillStyle = stat.color;
+                ctx.font = '700 34px "JetBrains Mono", monospace';
+                ctx.fillText(stat.value, x + 126, 472);
+            });
+
+            // 5. Wordle-Style Question Strip (Green = Solved, Amber = Skipped)
+            const results = (typeof questionResults !== 'undefined' && questionResults.length > 0)
+                ? questionResults
+                : Array.from({ length: selectedCount }, (_, idx) => idx < correctAnswersCount);
+
+            const boxSize = Math.min(26, Math.floor(720 / results.length) - 6);
+            const gap = 6;
+            const totalStripWidth = results.length * boxSize + (results.length - 1) * gap;
+            let startX = (900 - totalStripWidth) / 2;
+
+            results.forEach((solved) => {
+                ctx.fillStyle = solved ? '#10b981' : '#f59e0b';
+                ctx.beginPath();
+                ctx.roundRect(startX, 526, boxSize, boxSize, 6);
+                ctx.fill();
+                startX += boxSize + gap;
+            });
+
+            // 6. Footer URL Stamp for Organic Growth
+            ctx.fillStyle = '#64748b';
+            ctx.font = '600 17px Inter, system-ui, sans-serif';
+            ctx.fillText('Beat my time at  math-sprinter-sage.vercel.app', 450, 598);
+
+            return { canvas, isoDate, totalTimeText };
+        }
+
+        function shareScoreCard(forceDownload = false) {
+            const { canvas, isoDate, totalTimeText } = buildScoreCanvas();
+            const btn = document.getElementById('share-score-btn');
+
+            canvas.toBlob(async (blob) => {
+                if (!blob) return;
+                const filename = `mathsprinter-${isoDate}.png`;
+
+                if (forceDownload) {
+                    const link = document.createElement('a');
+                    link.download = filename;
+                    link.href = URL.createObjectURL(blob);
+                    link.click();
+                    return;
+                }
+
+                const file = new File([blob], filename, { type: 'image/png' });
+
+                // Mobile native share sheet (shares PNG image + clickable URL)
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    try {
+                        await navigator.share({
+                            title: 'MathSprinter Daily Challenge',
+                            text: `I finished today's MathSprinter in ${totalTimeText}! Can you beat my time? https://math-sprinter-sage.vercel.app/`,
+                            files: [file]
+                        });
+                        return;
+                    } catch (err) {
+                        if (err.name === 'AbortError') return;
+                    }
+                }
+
+                // Desktop clipboard copy (paste directly into WhatsApp Web, Discord, X)
+                try {
+                    await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+                    const originalHTML = btn.innerHTML;
+                    btn.innerHTML = '<i class="fa-solid fa-check"></i><span>Scorecard Copied!</span>';
+                    setTimeout(() => { btn.innerHTML = originalHTML; }, 2500);
+                } catch {
+                    const link = document.createElement('a');
+                    link.download = filename;
+                    link.href = URL.createObjectURL(blob);
+                    link.click();
+                }
+            }, 'image/png');
+        }    
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
 </body>
