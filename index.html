@@ -46,164 +46,1329 @@
       }
     ]
     </script>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts: Inter & JetBrains Mono -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
+        :root {
+            --bg-page: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-muted: #f1f5f9;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --text-subtle: #94a3b8;
+            --border-light: #e2e8f0;
+            --border-strong: #cbd5e1;
+            --indigo-600: #4f46e5;
+            --indigo-700: #4338ca;
+            --indigo-50: #eef2ff;
+            --indigo-100: #e0e7ff;
+            --emerald-600: #059669;
+            --emerald-50: #ecfdf5;
+            --emerald-500: #10b981;
+            --amber-500: #f59e0b;
+            --amber-300: #fcd34d;
+            --amber-50: #fffbeb;
+            --amber-200: #fde68a;
+            --amber-800: #92400e;
+            --rose-600: #e11d48;
+            --rose-700: #be123c;
+            --rose-50: #fff1f2;
+            --rose-100: #ffe4e6;
         }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.5;
+        }
+
+        body::selection, body *::selection {
+            background-color: var(--indigo-100);
+            color: var(--indigo-700);
+        }
+
+        button, input {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+            border: 0;
+            background: transparent;
+            color: inherit;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
         .font-mono-num {
             font-family: 'JetBrains Mono', monospace;
+            font-variant-numeric: tabular-nums;
         }
-        /* Custom subtle animations */
+
+        /* Header */
+        header {
+            background-color: var(--bg-card);
+            border-bottom: 1px solid var(--border-light);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header-inner {
+            max-width: 48rem;
+            margin: 0 auto;
+            padding: 0 1rem;
+            height: 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.625rem;
+            cursor: pointer;
+        }
+
+        .brand-icon {
+            width: 2.25rem;
+            height: 2.25rem;
+            background-color: var(--indigo-600);
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            box-shadow: 0 1px 3px rgba(79, 70, 229, 0.25);
+        }
+
+        .brand-title {
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: -0.025em;
+            color: var(--text-main);
+        }
+
+        .brand-title span {
+            color: var(--indigo-600);
+        }
+
+        .nav-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-btn {
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .nav-btn:hover {
+            background-color: var(--bg-muted);
+        }
+
+        .nav-btn.active {
+            background-color: var(--indigo-50);
+            color: var(--indigo-700);
+        }
+
+        .nav-btn i {
+            margin-right: 0.375rem;
+            font-size: 0.75rem;
+        }
+
+        /* Main Layout */
+        main {
+            flex: 1;
+            max-width: 48rem;
+            width: 100%;
+            margin: 0 auto;
+            padding: 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Hero / Setup */
+        .hero {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            background-color: var(--indigo-100);
+            color: var(--indigo-700);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            margin: 0.25rem 0 0;
+            font-size: 1.875rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            color: var(--text-main);
+            line-height: 1.15;
+        }
+
+        .hero p {
+            margin: 0 auto;
+            color: var(--text-muted);
+            font-size: 0.9375rem;
+            max-width: 28rem;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 1.5rem;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+            padding: 1.25rem;
+        }
+
+        .setup-card {
+            display: flex;
+            flex-direction: column;
+            gap: 1.75rem;
+        }
+
+        /* Daily Banner */
+        .daily-banner {
+            padding: 1rem 1.25rem;
+            border-radius: 1rem;
+            background: linear-gradient(90deg, #4f46e5 0%, #4338ca 50%, #6d28d9 100%);
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            box-shadow: 0 8px 20px -6px rgba(79, 70, 229, 0.35);
+        }
+
+        .daily-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .daily-tag {
+            padding: 0.125rem 0.5rem;
+            border-radius: 0.375rem;
+            background-color: rgba(255, 255, 255, 0.2);
+            font-size: 0.625rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .daily-submeta {
+            font-size: 0.75rem;
+            color: #e0e7ff;
+            font-weight: 500;
+        }
+
+        .daily-banner h2 {
+            margin: 0;
+            font-weight: 800;
+            font-size: 1.125rem;
+            line-height: 1.25;
+        }
+
+        .daily-banner p {
+            margin: 0.125rem 0 0;
+            font-size: 0.75rem;
+            color: rgba(224, 231, 255, 0.92);
+        }
+
+        .btn-daily {
+            width: 100%;
+            padding: 0.75rem 1.25rem;
+            background-color: #ffffff;
+            color: var(--indigo-700);
+            font-weight: 800;
+            font-size: 0.875rem;
+            border-radius: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: transform 0.12s ease, background-color 0.15s ease;
+        }
+
+        .btn-daily:hover {
+            background-color: var(--indigo-50);
+        }
+
+        .btn-daily:active {
+            transform: scale(0.98);
+        }
+
+        .btn-daily i {
+            color: var(--amber-500);
+        }
+
+        /* Option Groups */
+        .step-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .step-label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-subtle);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.75rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.75rem;
+        }
+
+        .op-btn {
+            padding: 1rem;
+            border-radius: 1rem;
+            border: 2px solid var(--border-light);
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.375rem;
+            transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .op-btn:hover {
+            border-color: var(--border-strong);
+        }
+
+        .op-btn i {
+            font-size: 1.25rem;
+        }
+
+        .op-btn span {
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+
+        .diff-btn {
+            padding: 0.75rem 1rem;
+            border-radius: 1rem;
+            border: 2px solid var(--border-light);
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 0.875rem;
+            text-align: center;
+            transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .diff-btn:hover {
+            border-color: var(--border-strong);
+        }
+
+        .diff-sub {
+            display: block;
+            font-size: 0.6875rem;
+            font-weight: 400;
+            opacity: 0.8;
+            margin-top: 0.125rem;
+        }
+
+        .count-btn {
+            padding: 0.625rem 1rem;
+            border-radius: 1rem;
+            border: 2px solid var(--border-light);
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 0.875rem;
+            text-align: center;
+            transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .count-btn:hover {
+            border-color: var(--border-strong);
+        }
+
+        .opt-selected {
+            border-color: var(--indigo-600) !important;
+            background-color: rgba(238, 242, 255, 0.65) !important;
+            color: var(--indigo-700) !important;
+        }
+
+        /* Primary & Secondary Buttons */
+        .btn-primary {
+            width: 100%;
+            padding: 0.95rem 1.5rem;
+            background-color: var(--indigo-600);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1rem;
+            border-radius: 1rem;
+            box-shadow: 0 8px 18px -6px rgba(79, 70, 229, 0.45);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.625rem;
+            transition: background-color 0.15s ease, transform 0.12s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--indigo-700);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.99);
+        }
+
+        .btn-secondary {
+            padding: 0.875rem 1.25rem;
+            background-color: var(--bg-muted);
+            color: var(--text-main);
+            font-weight: 700;
+            border-radius: 1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: background-color 0.15s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--border-light);
+        }
+
+        .btn-emerald {
+            padding: 0.875rem 1.5rem;
+            background-color: var(--emerald-600);
+            color: #ffffff;
+            font-weight: 700;
+            border-radius: 1rem;
+            box-shadow: 0 6px 14px -4px rgba(5, 150, 105, 0.35);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: background-color 0.15s ease, transform 0.12s ease;
+        }
+
+        .btn-emerald:hover {
+            background-color: #047857;
+        }
+
+        /* Workspace / Drill */
+        .quiz-topbar {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 1rem;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+        }
+
+        .quiz-meta-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .quiz-counter {
+            padding: 0.25rem 0.75rem;
+            background-color: var(--bg-muted);
+            color: #334155;
+            border-radius: 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .quiz-timer {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            color: var(--indigo-600);
+            font-weight: 700;
+            font-size: 1.0625rem;
+        }
+
+        .btn-quit {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            border-radius: 0.75rem;
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .btn-quit:hover {
+            color: var(--rose-600);
+            background-color: var(--rose-50);
+        }
+
+        .progress-track {
+            width: 100%;
+            background-color: var(--border-light);
+            height: 0.5rem;
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background-color: var(--indigo-600);
+            height: 100%;
+            transition: width 0.3s ease-out;
+        }
+
+        .question-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 1.5rem;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .quiz-op-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-subtle);
+        }
+
+        .question-display {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.025em;
+            padding: 1rem 0;
+        }
+
+        .feedback-banner {
+            font-size: 1.125rem;
+            font-weight: 700;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+        }
+
+        .feedback-skipped {
+            background-color: var(--amber-50);
+            color: var(--amber-800);
+            border: 1px solid var(--amber-200);
+        }
+
+        .answer-box {
+            max-width: 20rem;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        #answer-input {
+            width: 100%;
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            padding: 1rem 1.5rem;
+            border-radius: 1rem;
+            border: 2px solid var(--border-strong);
+            outline: none;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+        }
+
+        #answer-input:focus {
+            border-color: var(--indigo-600);
+            box-shadow: 0 0 0 4px var(--indigo-100);
+            background-color: var(--bg-card);
+        }
+
+        #answer-input.correct-flash {
+            border-color: var(--emerald-500);
+            background-color: var(--emerald-50);
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        .helper-note {
+            margin: 0;
+            font-size: 0.75rem;
+            color: var(--text-subtle);
+            font-weight: 500;
+        }
+
+        .btn-skip {
+            width: 100%;
+            margin-top: 0.5rem;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            border: 2px solid #c7d2fe;
+            background-color: var(--indigo-50);
+            color: var(--indigo-700);
+            font-weight: 700;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: background-color 0.15s ease;
+        }
+
+        .btn-skip:hover {
+            background-color: var(--indigo-100);
+        }
+
+        #touch-keypad {
+            display: none;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.5rem;
+            max-width: 20rem;
+            width: 100%;
+            margin: 0.5rem auto 0;
+        }
+
+        @media (pointer: coarse) {
+            #touch-keypad {
+                display: grid;
+            }
+        }
+
+        @media (pointer: fine) {
+            #touch-keypad {
+                display: none !important;
+            }
+        }
+
+        .keypad-btn {
+            padding: 0.875rem;
+            background-color: var(--bg-muted);
+            border-radius: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 1.25rem;
+            transition: background-color 0.12s ease;
+        }
+
+        .keypad-btn:active {
+            background-color: var(--border-light);
+        }
+
+        .keypad-clr {
+            background-color: var(--rose-50);
+            color: var(--rose-600);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+        }
+
+        .keypad-clr:active {
+            background-color: var(--rose-100);
+        }
+
+        .keypad-del {
+            background-color: var(--border-light);
+            font-size: 1.125rem;
+        }
+
+        /* Results */
+        .results-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 1.5rem;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+            padding: 1.5rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .badge-wrap {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0 auto;
+        }
+
+        .badge-icon-box {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 1rem;
+            background-color: var(--amber-50);
+            border: 1px solid var(--amber-200);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.875rem;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+        }
+
+        .badge-label {
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--indigo-600);
+            background-color: var(--indigo-50);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+        }
+
+        .results-card h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .results-subtitle {
+            margin: 0.25rem 0 0;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .res-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.5rem;
+            padding-top: 0.25rem;
+        }
+
+        .res-stat-box {
+            padding: 0.75rem;
+            border-radius: 1rem;
+            background-color: var(--bg-page);
+            border: 1px solid rgba(226, 232, 240, 0.75);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .res-stat-label {
+            display: block;
+            font-size: 0.625rem;
+            font-weight: 600;
+            color: var(--text-subtle);
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .res-stat-val {
+            display: block;
+            font-size: 1.125rem;
+            font-weight: 800;
+            margin-top: 0.25rem;
+        }
+
+        .summary-banner {
+            padding: 1rem 1.25rem;
+            border-radius: 1rem;
+            background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 100%);
+            color: #ffffff;
+            box-shadow: 0 8px 18px -6px rgba(79, 70, 229, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            text-align: left;
+        }
+
+        .summary-left {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+        }
+
+        .summary-globe {
+            width: 2.75rem;
+            height: 2.75rem;
+            border-radius: 0.75rem;
+            background-color: rgba(255, 255, 255, 0.16);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+            color: var(--amber-300);
+        }
+
+        .summary-kicker {
+            display: block;
+            font-size: 0.6875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--indigo-100);
+        }
+
+        .summary-rank {
+            font-weight: 800;
+            font-size: 1rem;
+            line-height: 1.25;
+        }
+
+        .summary-pill {
+            display: inline-block;
+            padding: 0.25rem 0.625rem;
+            border-radius: 0.5rem;
+            background-color: rgba(255, 255, 255, 0.2);
+            font-weight: 800;
+            font-size: 0.75rem;
+            white-space: nowrap;
+        }
+
+        .action-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            padding-top: 0.25rem;
+        }
+
+        .action-row .flex-grow {
+            flex: 1;
+        }
+
+        /* Dashboard */
+        .dash-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .dash-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .dash-header p {
+            margin: 0.125rem 0 0;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .btn-reset {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-subtle);
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.75rem;
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .btn-reset:hover {
+            color: var(--rose-600);
+            background-color: var(--rose-50);
+        }
+
+        .dash-overview-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .stat-card {
+            background-color: var(--bg-card);
+            padding: 1.25rem;
+            border-radius: 1.5rem;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+        }
+
+        .stat-card-top {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-card-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-top: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .breakdown-card {
+            background-color: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 1.5rem;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .breakdown-title {
+            margin: 0;
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-subtle);
+        }
+
+        .skill-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.375rem;
+        }
+
+        .skill-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
+
+        .skill-name {
+            color: #334155;
+        }
+
+        .skill-name i {
+            color: #6366f1;
+            width: 1.25rem;
+        }
+
+        .skill-pct {
+            color: var(--text-muted);
+        }
+
+        .bar-track {
+            width: 100%;
+            background-color: var(--bg-muted);
+            height: 0.625rem;
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            background-color: var(--indigo-600);
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.5s ease;
+        }
+
+        .text-slate-900 { color: var(--text-main); }
+        .text-emerald-600 { color: var(--emerald-600); }
+        .text-indigo-600 { color: var(--indigo-600); }
+        .text-amber-500 { color: var(--amber-500); }
+
+        /* Modal */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(2px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            z-index: 50;
+        }
+
+        .modal-backdrop.open {
+            display: flex;
+        }
+
+        .modal-card {
+            background-color: var(--bg-card);
+            border-radius: 1.5rem;
+            max-width: 24rem;
+            width: 100%;
+            padding: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.15);
+            border: 1px solid var(--bg-muted);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .modal-card h3 {
+            margin: 0;
+            font-size: 1.125rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .modal-card p {
+            margin: 0;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 0.75rem;
+            padding-top: 0.25rem;
+        }
+
+        .btn-cancel {
+            flex: 1;
+            padding: 0.625rem 1rem;
+            background-color: var(--bg-muted);
+            color: #334155;
+            font-weight: 700;
+            border-radius: 0.75rem;
+            font-size: 0.875rem;
+            transition: background-color 0.15s ease;
+        }
+
+        .btn-cancel:hover {
+            background-color: var(--border-light);
+        }
+
+        .btn-confirm-danger {
+            flex: 1;
+            padding: 0.625rem 1rem;
+            background-color: var(--rose-600);
+            color: #ffffff;
+            font-weight: 700;
+            border-radius: 0.75rem;
+            font-size: 0.875rem;
+            transition: background-color 0.15s ease;
+        }
+
+        .btn-confirm-danger:hover {
+            background-color: var(--rose-700);
+        }
+
+        /* Animations */
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-6px); }
             75% { transform: translateX(6px); }
         }
+
         .animate-shake {
             animation: shake 0.25s ease-in-out;
         }
+
         @keyframes pop {
             0% { transform: scale(0.95); }
             50% { transform: scale(1.03); }
             100% { transform: scale(1); }
         }
+
         .animate-pop {
             animation: pop 0.2s ease-out;
         }
-        /* Hide number input spinners */
-        input[type=number]::-webkit-inner-spin-button, 
-        input[type=number]::-webkit-outer-spin-button { 
-            -webkit-appearance: none; 
-            margin: 0; 
+
+        /* Responsive Breakpoints */
+        @media (min-width: 640px) {
+            .header-inner {
+                padding: 0 1.5rem;
+            }
+            main {
+                padding: 2.5rem 1.5rem;
+            }
+            .hero h1 {
+                font-size: 2.25rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .card {
+                padding: 2rem;
+            }
+            .daily-banner {
+                flex-direction: row;
+                align-items: center;
+                padding: 1rem 1.25rem;
+            }
+            .btn-daily {
+                width: auto;
+            }
+            .grid-2-sm-4 {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+            .dash-overview-grid {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+            .question-card {
+                padding: 3rem;
+            }
+            .question-display {
+                font-size: 4.5rem;
+            }
+            #answer-input {
+                font-size: 3rem;
+            }
+            .results-card {
+                padding: 2.5rem;
+            }
+            .results-card h2 {
+                font-size: 1.875rem;
+            }
+            .res-stats-grid {
+                gap: 1rem;
+            }
+            .res-stat-box {
+                padding: 1rem;
+            }
+            .res-stat-label {
+                font-size: 0.75rem;
+            }
+            .res-stat-val {
+                font-size: 1.5rem;
+            }
+            .summary-rank {
+                font-size: 1.125rem;
+            }
+            .summary-pill {
+                font-size: 0.875rem;
+            }
+            .action-row {
+                flex-direction: row;
+            }
+            .dash-header h2 {
+                font-size: 1.875rem;
+            }
+            .stat-card-value {
+                font-size: 1.875rem;
+            }
+            .breakdown-card {
+                padding: 2rem;
+            }
         }
-        input[type=number] {
-            -moz-appearance: textfield;
+    
+
+        /* Accessibility and interaction refinements */
+        :focus-visible {
+            outline: 3px solid var(--indigo-600);
+            outline-offset: 3px;
         }
+
+        button:disabled {
+            cursor: not-allowed;
+            opacity: 0.65;
+        }
+
+        #answer-input:disabled {
+            opacity: 0.85;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .question-display {
+                font-size: clamp(2rem, 10vw, 3rem);
+            }
+
+            #answer-input {
+                font-size: clamp(1.75rem, 9vw, 2.5rem);
+                padding: 0.75rem 1rem;
+            }
+
+            .quiz-topbar {
+                padding: 0.75rem;
+            }
+
+            .res-stat-box {
+                padding: 0.625rem 0.375rem;
+            }
+        }
+
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col selection:bg-indigo-100 selection:text-indigo-700">
+<body>
 
     <!-- Top Navigation Bar -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-10">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-2.5 cursor-pointer" onclick="showView('view-setup')">
-                <div class="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-sm shadow-indigo-200">
-                    <i class="fa-solid fa-bolt text-base"></i>
+    <header>
+        <div class="header-inner">
+            <div class="brand" onclick="showView('view-setup')">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-bolt"></i>
                 </div>
-                <span class="font-extrabold text-xl tracking-tight text-slate-900">Math<span class="text-indigo-600">Sprinter</span></span>
+                <span class="brand-title">Math<span>Sprinter</span></span>
             </div>
 
-            <div class="flex items-center gap-2">
-                <button onclick="showView('view-setup')" id="nav-btn-train" class="px-3 py-1.5 rounded-xl text-sm font-semibold bg-indigo-50 text-indigo-700 transition">
-                    <i class="fa-solid fa-play mr-1.5 text-xs"></i>Train
+            <div class="nav-group">
+                <button type="button" onclick="showView('view-setup')" id="nav-btn-train" class="nav-btn active">
+                    <i class="fa-solid fa-play"></i>Train
                 </button>
-                <button onclick="showView('view-dashboard')" id="nav-btn-stats" class="px-3 py-1.5 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100 transition">
-                    <i class="fa-solid fa-chart-line mr-1.5 text-xs"></i>Stats
+                <button type="button" onclick="showView('view-dashboard')" id="nav-btn-stats" class="nav-btn">
+                    <i class="fa-solid fa-chart-line"></i>Stats
                 </button>
             </div>
         </div>
     </header>
 
     <!-- Main Container -->
-    <main class="flex-1 max-w-3xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-10 flex flex-col justify-center">
+    <main>
 
         <!-- ========================================== -->
         <!-- VIEW 1: SPRINT CONFIGURATION (SETUP)       -->
         <!-- ========================================== -->
-        <section id="view-setup" class="space-y-6 animate-pop">
-            <div class="text-center space-y-2 mb-6">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-700 uppercase tracking-wider">
+        <section id="view-setup" class="animate-pop">
+            <div class="hero">
+                <span class="hero-badge">
                     <i class="fa-solid fa-stopwatch"></i> Mental Agility Training
                 </span>
-                <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">Improve Your Mental Math Speed</h1>
-                <p class="text-slate-500 text-sm sm:text-base max-w-md mx-auto">Repetition builds fluency — get faster and sharper with every sprint.</p>
+                <h1>Improve Your Mental Math Speed</h1>
+                <p>Repetition builds fluency — get faster and sharper with every sprint.</p>
             </div>
 
-            <div class="bg-white rounded-3xl border border-slate-200/80 shadow-sm p-5 sm:p-8 space-y-7">
-                
+            <div class="card setup-card">
+
                 <!-- Daily Global Challenge Banner -->
-                <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-indigo-600 via-indigo-700 to-violet-700 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-md shadow-indigo-200">
-                    <div class="space-y-1">
-                        <div class="flex items-center gap-2">
-                            <span class="px-2 py-0.5 rounded-md bg-white/20 text-[10px] font-extrabold uppercase tracking-wider">Daily Challenge • <span id="daily-challenge-date">Nov 19</span></span>
-                            <span class="text-xs text-indigo-100 font-medium">Same 10 Qs for everyone today</span>
+                <div class="daily-banner">
+                    <div>
+                        <div class="daily-meta">
+                            <span class="daily-tag">Daily Challenge • <span id="daily-challenge-date">Nov 19</span></span>
+                            <span class="daily-submeta">Same 10 Qs for everyone today</span>
                         </div>
-                        <h2 class="font-extrabold text-lg leading-tight">Play Today's Global Sprint</h2>
-                        <p class="text-xs text-indigo-100/90">Try the same daily questions as everyone else and track your own progress.</p>
+                        <h2>Play Today's Global Sprint</h2>
+                        <p>Try the same daily questions as everyone else and track your own progress.</p>
                     </div>
-                    <button type="button" onclick="startDailySprint()" class="w-full sm:w-auto px-5 py-3 bg-white text-indigo-700 hover:bg-indigo-50 active:scale-[0.98] font-extrabold text-sm rounded-xl shadow-sm transition flex items-center justify-center gap-2 shrink-0">
-                        <i class="fa-solid fa-fire text-amber-500"></i>
+                    <button type="button" onclick="startDailySprint()" class="btn-daily">
+                        <i class="fa-solid fa-fire"></i>
                         <span>Play Daily</span>
                     </button>
                 </div>
 
                 <!-- Step 1: Operation -->
-                <div class="space-y-3">
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">1. Choose Operation</label>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="op-selector">
-                        <button type="button" onclick="selectOption('op', 'add', this)" class="op-btn active-opt p-4 rounded-2xl border-2 border-indigo-600 bg-indigo-50/60 text-indigo-700 flex flex-col items-center justify-center gap-1.5 transition">
-                            <i class="fa-solid fa-plus text-xl"></i>
-                            <span class="font-bold text-sm">Addition</span>
+                <div class="step-group">
+                    <label class="step-label">1. Choose Operation</label>
+                    <div class="grid-2 grid-2-sm-4" id="op-selector">
+                        <button type="button" onclick="selectOption('op', 'add', this)" class="op-btn opt-selected">
+                            <i class="fa-solid fa-plus"></i>
+                            <span>Addition</span>
                         </button>
-                        <button type="button" onclick="selectOption('op', 'sub', this)" class="op-btn p-4 rounded-2xl border-2 border-slate-200 hover:border-slate-300 text-slate-600 flex flex-col items-center justify-center gap-1.5 transition">
-                            <i class="fa-solid fa-minus text-xl"></i>
-                            <span class="font-bold text-sm">Subtraction</span>
+                        <button type="button" onclick="selectOption('op', 'sub', this)" class="op-btn">
+                            <i class="fa-solid fa-minus"></i>
+                            <span>Subtraction</span>
                         </button>
-                        <button type="button" onclick="selectOption('op', 'mul', this)" class="op-btn p-4 rounded-2xl border-2 border-slate-200 hover:border-slate-300 text-slate-600 flex flex-col items-center justify-center gap-1.5 transition">
-                            <i class="fa-solid fa-xmark text-xl"></i>
-                            <span class="font-bold text-sm">Multiply</span>
+                        <button type="button" onclick="selectOption('op', 'mul', this)" class="op-btn">
+                            <i class="fa-solid fa-xmark"></i>
+                            <span>Multiply</span>
                         </button>
-                        <button type="button" onclick="selectOption('op', 'div', this)" class="op-btn p-4 rounded-2xl border-2 border-slate-200 hover:border-slate-300 text-slate-600 flex flex-col items-center justify-center gap-1.5 transition">
-                            <i class="fa-solid fa-divide text-xl"></i>
-                            <span class="font-bold text-sm">Division</span>
+                        <button type="button" onclick="selectOption('op', 'div', this)" class="op-btn">
+                            <i class="fa-solid fa-divide"></i>
+                            <span>Division</span>
                         </button>
                     </div>
                 </div>
 
                 <!-- Step 2: Difficulty -->
-                <div class="space-y-3">
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">2. Difficulty Tier</label>
-                    <div class="grid grid-cols-3 gap-3">
-                        <button type="button" onclick="selectOption('diff', 'easy', this)" class="diff-btn active-opt py-3 px-4 rounded-2xl border-2 border-indigo-600 bg-indigo-50/60 text-indigo-700 font-bold text-sm transition text-center">
+                <div class="step-group">
+                    <label class="step-label">2. Difficulty Tier</label>
+                    <div class="grid-3">
+                        <button type="button" onclick="selectOption('diff', 'easy', this)" class="diff-btn opt-selected">
                             Warmup
-                            <span class="block text-[11px] font-normal opacity-80 mt-0.5">1-Digit Focus</span>
+                            <span class="diff-sub">1-Digit Focus</span>
                         </button>
-                        <button type="button" onclick="selectOption('diff', 'medium', this)" class="diff-btn py-3 px-4 rounded-2xl border-2 border-slate-200 hover:border-slate-300 text-slate-600 font-bold text-sm transition text-center">
+                        <button type="button" onclick="selectOption('diff', 'medium', this)" class="diff-btn">
                             Sprinter
-                            <span class="block text-[11px] font-normal opacity-80 mt-0.5">2-Digit Standard</span>
+                            <span class="diff-sub">2-Digit Standard</span>
                         </button>
-                        <button type="button" onclick="selectOption('diff', 'hard', this)" class="diff-btn py-3 px-4 rounded-2xl border-2 border-slate-200 hover:border-slate-300 text-slate-600 font-bold text-sm transition text-center">
+                        <button type="button" onclick="selectOption('diff', 'hard', this)" class="diff-btn">
                             Pro Elite
-                            <span class="block text-[11px] font-normal opacity-80 mt-0.5">Large Numbers</span>
+                            <span class="diff-sub">Large Numbers</span>
                         </button>
                     </div>
                 </div>
 
                 <!-- Step 3: Sprint Length -->
-                <div class="space-y-3">
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">3. Sprint Length</label>
-                    <div class="grid grid-cols-3 gap-3">
-                        <button type="button" onclick="selectOption('count', 10, this)" class="count-btn active-opt py-2.5 px-4 rounded-2xl border-2 border-indigo-600 bg-indigo-50/60 text-indigo-700 font-bold text-sm transition">
+                <div class="step-group">
+                    <label class="step-label">3. Sprint Length</label>
+                    <div class="grid-3">
+                        <button type="button" onclick="selectOption('count', 10, this)" class="count-btn opt-selected">
                             10 Questions
                         </button>
-                        <button type="button" onclick="selectOption('count', 20, this)" class="count-btn py-2.5 px-4 rounded-2xl border-2 border-slate-200 hover:border-slate-300 text-slate-600 font-bold text-sm transition">
+                        <button type="button" onclick="selectOption('count', 20, this)" class="count-btn">
                             20 Questions
                         </button>
-                        <button type="button" onclick="selectOption('count', 30, this)" class="count-btn py-2.5 px-4 rounded-2xl border-2 border-slate-200 hover:border-slate-300 text-slate-600 font-bold text-sm transition">
+                        <button type="button" onclick="selectOption('count', 30, this)" class="count-btn">
                             30 Questions
                         </button>
                     </div>
                 </div>
 
                 <!-- Start Button -->
-                <div class="pt-2">
-                    <button onclick="startSprint()" class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-bold text-lg rounded-2xl shadow-lg shadow-indigo-200 transition flex items-center justify-center gap-2.5">
+                <div>
+                    <button type="button" onclick="startSprint()" class="btn-primary">
                         <span>Start Sprint</span>
                         <i class="fa-solid fa-arrow-right"></i>
                     </button>
@@ -214,71 +1379,70 @@
         <!-- ========================================== -->
         <!-- VIEW 2: ACTIVE WORKSPACE (DRILL)           -->
         <!-- ========================================== -->
-        <section id="view-workspace" class="hidden space-y-6">
-            <!-- Top Bar: Progress, Timer, Skip & Quit -->
-            <div class="bg-white rounded-2xl border border-slate-200 p-4 flex items-center justify-between gap-3 shadow-sm">
-                <div class="flex items-center gap-3">
-                    <span id="quiz-counter" class="px-3 py-1 bg-slate-100 text-slate-700 rounded-xl text-xs font-bold font-mono-num">
+        <section id="view-workspace" class="hidden">
+            <!-- Top Bar: Progress, Timer & Quit -->
+            <div class="quiz-topbar">
+                <div class="quiz-meta-left">
+                    <span id="quiz-counter" class="quiz-counter font-mono-num">
                         1 / 10
                     </span>
-                    <div class="flex items-center gap-1.5 text-indigo-600 font-mono-num font-bold text-base sm:text-lg">
-                        <i class="fa-regular fa-clock text-sm"></i>
+                    <div class="quiz-timer font-mono-num">
+                        <i class="fa-regular fa-clock"></i>
                         <span id="quiz-timer">00:00.0</span>
                     </div>
                 </div>
 
-                <div class="flex items-center gap-2">
-                    <button onclick="cancelDrill()" class="px-3 py-1.5 text-xs text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl font-semibold transition">
+                <div>
+                    <button type="button" onclick="cancelDrill()" class="btn-quit">
                         Quit
                     </button>
                 </div>
             </div>
 
             <!-- Progress Bar -->
-            <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
-                <div id="quiz-progress-bar" class="bg-indigo-600 h-full transition-all duration-300 ease-out" style="width: 10%"></div>
+            <div class="progress-track">
+                <div id="quiz-progress-bar" class="progress-fill" style="width: 10%"></div>
             </div>
 
             <!-- Main Question Card -->
-            <div id="question-card" class="bg-white rounded-3xl border border-slate-200 shadow-sm p-8 sm:p-12 text-center space-y-8">
-                <div class="space-y-2">
-                    <span id="quiz-op-label" class="text-xs font-bold uppercase tracking-widest text-slate-400">Addition Sprint</span>
-                    <div id="question-display" class="text-5xl sm:text-7xl font-extrabold font-mono-num text-slate-900 tracking-tight py-4">
+            <div id="question-card" class="question-card">
+                <div>
+                    <span id="quiz-op-label" class="quiz-op-label">Addition Sprint</span>
+                    <div id="question-display" class="question-display font-mono-num">
                         14 + 28
                     </div>
-                    <div id="question-feedback" role="status" aria-live="polite" class="hidden text-lg font-bold rounded-xl px-4 py-3"></div>
+                    <div id="question-feedback" role="status" aria-live="polite" class="hidden feedback-banner"></div>
                 </div>
 
                 <!-- Answer Input Box -->
-                <div class="max-w-xs mx-auto space-y-3">
-                    <input 
-                        type="number" 
-                        id="answer-input" 
+                <div class="answer-box">
+                    <input
+                        type="number"
+                        id="answer-input"
                         inputmode="numeric"
-                        placeholder="?" 
+                        placeholder="?"
                         autocomplete="off"
-                        class="w-full text-center text-4xl sm:text-5xl font-bold font-mono-num py-4 px-6 rounded-2xl border-2 border-slate-300 focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 outline-none transition bg-slate-50 focus:bg-white text-slate-900"
                     >
-                    <p class="text-xs text-slate-400 font-medium">Auto-submits when correct</p>
-                    <button type="button" onclick="skipQuestion()" class="w-full mt-2 py-3 rounded-xl border-2 border-indigo-200 bg-indigo-50 hover:bg-indigo-100 active:bg-indigo-200 text-indigo-700 font-bold text-base transition flex items-center justify-center gap-2" title="Skip this problem">
+                    <p class="helper-note">Auto-submits when correct</p>
+                    <button type="button" onclick="skipQuestion()" class="btn-skip" title="Skip this problem">
                         <i class="fa-solid fa-forward"></i><span>Skip question</span>
                     </button>
                 </div>
 
                 <!-- On-screen numpad for touch devices (phones and tablets) -->
-                <div id="touch-keypad" class="grid grid-cols-3 gap-2 max-w-xs mx-auto pt-2">
-                    <button type="button" onclick="appendDigit('1')" class="py-3.5 bg-slate-100 active:bg-slate-200 rounded-xl font-mono-num font-bold text-xl">1</button>
-                    <button type="button" onclick="appendDigit('2')" class="py-3.5 bg-slate-100 active:bg-slate-200 rounded-xl font-mono-num font-bold text-xl">2</button>
-                    <button type="button" onclick="appendDigit('3')" class="py-3.5 bg-slate-100 active:bg-slate-200 rounded-xl font-mono-num font-bold text-xl">3</button>
-                    <button type="button" onclick="appendDigit('4')" class="py-3.5 bg-slate-100 active:bg-slate-200 rounded-xl font-mono-num font-bold text-xl">4</button>
-                    <button type="button" onclick="appendDigit('5')" class="py-3.5 bg-slate-100 active:bg-slate-200 rounded-xl font-mono-num font-bold text-xl">5</button>
-                    <button type="button" onclick="appendDigit('6')" class="py-3.5 bg-slate-100 active:bg-slate-200 rounded-xl font-mono-num font-bold text-xl">6</button>
-                    <button type="button" onclick="appendDigit('7')" class="py-3.5 bg-slate-100 active:bg-slate-200 rounded-xl font-mono-num font-bold text-xl">7</button>
-                    <button type="button" onclick="appendDigit('8')" class="py-3.5 bg-slate-100 active:bg-slate-200 rounded-xl font-mono-num font-bold text-xl">8</button>
-                    <button type="button" onclick="appendDigit('9')" class="py-3.5 bg-slate-100 active:bg-slate-200 rounded-xl font-mono-num font-bold text-xl">9</button>
-                    <button type="button" onclick="clearInput()" class="py-3.5 bg-rose-50 text-rose-600 active:bg-rose-100 rounded-xl font-bold text-sm">CLR</button>
-                    <button type="button" onclick="appendDigit('0')" class="py-3.5 bg-slate-100 active:bg-slate-200 rounded-xl font-mono-num font-bold text-xl">0</button>
-                    <button type="button" onclick="backspaceInput()" class="py-3.5 bg-slate-200 active:bg-slate-300 rounded-xl font-bold text-lg"><i class="fa-solid fa-delete-left"></i></button>
+                <div id="touch-keypad">
+                    <button type="button" onclick="appendDigit('1')" class="keypad-btn">1</button>
+                    <button type="button" onclick="appendDigit('2')" class="keypad-btn">2</button>
+                    <button type="button" onclick="appendDigit('3')" class="keypad-btn">3</button>
+                    <button type="button" onclick="appendDigit('4')" class="keypad-btn">4</button>
+                    <button type="button" onclick="appendDigit('5')" class="keypad-btn">5</button>
+                    <button type="button" onclick="appendDigit('6')" class="keypad-btn">6</button>
+                    <button type="button" onclick="appendDigit('7')" class="keypad-btn">7</button>
+                    <button type="button" onclick="appendDigit('8')" class="keypad-btn">8</button>
+                    <button type="button" onclick="appendDigit('9')" class="keypad-btn">9</button>
+                    <button type="button" onclick="clearInput()" class="keypad-btn keypad-clr">CLR</button>
+                    <button type="button" onclick="appendDigit('0')" class="keypad-btn">0</button>
+                    <button type="button" onclick="backspaceInput()" class="keypad-btn keypad-del"><i class="fa-solid fa-delete-left"></i></button>
                 </div>
             </div>
         </section>
@@ -286,79 +1450,79 @@
         <!-- ========================================== -->
         <!-- VIEW 3: SPRINT RESULTS SUMMARY             -->
         <!-- ========================================== -->
-        <section id="view-results" class="hidden space-y-6 animate-pop">
-            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-10 text-center space-y-6">
-                
+        <section id="view-results" class="hidden animate-pop">
+            <div class="results-card">
+
                 <!-- Performance Badge -->
-                <div class="inline-flex flex-col items-center space-y-2">
-                    <div class="w-16 h-16 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-3xl shadow-sm">
+                <div class="badge-wrap">
+                    <div class="badge-icon-box">
                         <i id="res-badge-icon" class="fa-solid fa-bolt text-amber-500"></i>
                     </div>
-                    <span id="res-badge-title" class="text-xs font-extrabold tracking-widest uppercase text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">
+                    <span id="res-badge-title" class="badge-label">
                         SPEED MASTER
                     </span>
                 </div>
 
                 <div>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Sprint Complete!</h2>
-                    <p class="text-slate-500 text-sm mt-1">Your performance metrics have been saved locally on this device.</p>
+                    <h2>Sprint Complete!</h2>
+                    <p class="results-subtitle">Your performance metrics have been saved locally on this device.</p>
                 </div>
 
                 <!-- 3 Key Stat Cards -->
-                <div class="grid grid-cols-3 gap-2 sm:gap-4 pt-2">
-                    <div class="p-3 sm:p-4 rounded-2xl bg-slate-50 border border-slate-200/70 flex flex-col justify-center">
-                        <span class="block text-[10px] sm:text-xs font-semibold text-slate-400 uppercase whitespace-nowrap">Time</span>
-                        <span id="res-time" class="block text-base sm:text-2xl font-extrabold font-mono-num text-slate-900 mt-1">00:18.4</span>
+                <div class="res-stats-grid">
+                    <div class="res-stat-box">
+                        <span class="res-stat-label">Time</span>
+                        <span id="res-time" class="res-stat-val font-mono-num text-slate-900">00:18.4</span>
                     </div>
-                    <div class="p-3 sm:p-4 rounded-2xl bg-slate-50 border border-slate-200/70 flex flex-col justify-center">
-                        <span class="block text-[10px] sm:text-xs font-semibold text-slate-400 uppercase whitespace-nowrap">Accuracy</span>
-                        <span id="res-accuracy" class="block text-base sm:text-2xl font-extrabold font-mono-num text-emerald-600 mt-1">100%</span>
+                    <div class="res-stat-box">
+                        <span class="res-stat-label">Accuracy</span>
+                        <span id="res-accuracy" class="res-stat-val font-mono-num text-emerald-600">100%</span>
                     </div>
-                    <div class="p-3 sm:p-4 rounded-2xl bg-slate-50 border border-slate-200/70 flex flex-col justify-center">
-                        <span class="block text-[10px] sm:text-xs font-semibold text-slate-400 uppercase whitespace-nowrap">Avg Pace</span>
-                        <span id="res-speed" class="block text-base sm:text-2xl font-extrabold font-mono-num text-indigo-600 mt-1">1.8s/Q</span>
+                    <div class="res-stat-box">
+                        <span class="res-stat-label">Avg Pace</span>
+                        <span id="res-speed" class="res-stat-val font-mono-num text-indigo-600">1.8s/Q</span>
                     </div>
                 </div>
 
-                <!-- Personal performance summary (no unsupported global ranking) -->
-                <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-md shadow-indigo-200 flex items-center justify-between gap-4 text-left">
-                    <div class="flex items-center gap-3.5">
-                        <div class="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center text-xl shrink-0">
-                            <i class="fa-solid fa-earth-americas text-amber-300"></i>
+                <!-- Personal performance summary -->
+                <div class="summary-banner">
+                    <div class="summary-left">
+                        <div class="summary-globe">
+                            <i class="fa-solid fa-earth-americas"></i>
                         </div>
                         <div>
-                            <span class="block text-[11px] font-bold uppercase tracking-wider text-indigo-100">Your Sprint Performance</span>
-                            <div id="res-global-rank" class="font-extrabold text-base sm:text-lg leading-tight">
+                            <span class="summary-kicker">Your Sprint Performance</span>
+                            <div id="res-global-rank" class="summary-rank">
                                 Your accuracy and pace
                             </div>
                         </div>
                     </div>
-                    <div class="text-right shrink-0">
-                        <span id="res-global-tier" class="inline-block px-2.5 py-1 rounded-lg bg-white/20 font-mono-num font-extrabold text-xs sm:text-sm">
+                    <div>
+                        <span id="res-global-tier" class="summary-pill font-mono-num">
                             Personal result
                         </span>
                     </div>
                 </div>
 
                 <!-- Share Scorecard Row -->
-                <div class="flex flex-col sm:flex-row gap-3 pt-2">
-                    <button id="share-score-btn" onclick="shareScoreCard(false)" class="flex-1 py-3.5 px-6 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-bold rounded-2xl shadow-md shadow-emerald-200 transition flex items-center justify-center gap-2">
+                <div class="action-row">
+                    <button type="button" id="share-score-btn" onclick="shareScoreCard(false)" class="btn-emerald flex-grow">
                         <i class="fa-solid fa-share-nodes"></i>
                         <span>Share Scorecard</span>
                     </button>
-                    <button onclick="shareScoreCard(true)" class="py-3.5 px-5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-2xl transition flex items-center justify-center gap-2" title="Download PNG Scorecard">
+                    <button type="button" onclick="shareScoreCard(true)" class="btn-secondary" title="Download PNG Scorecard">
                         <i class="fa-solid fa-download"></i>
                         <span>Save PNG</span>
                     </button>
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="flex flex-col sm:flex-row gap-3 pt-2">
-                    <button onclick="retryLastMode()" class="flex-1 py-3.5 px-6 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl shadow-md shadow-indigo-200 transition flex items-center justify-center gap-2">
+                <div class="action-row">
+                    <button type="button" onclick="retryLastMode()" class="btn-primary flex-grow">
                         <i class="fa-solid fa-rotate-right"></i>
                         <span>Run Again</span>
                     </button>
-                    <button onclick="showView('view-dashboard')" class="flex-1 py-3.5 px-6 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-2xl transition flex items-center justify-center gap-2">
+                    <button type="button" onclick="showView('view-dashboard')" class="btn-secondary flex-grow">
                         <i class="fa-solid fa-chart-simple"></i>
                         <span>View Progress</span>
                     </button>
@@ -369,113 +1533,113 @@
         <!-- ========================================== -->
         <!-- VIEW 4: ANALYTICS DASHBOARD                -->
         <!-- ========================================== -->
-        <section id="view-dashboard" class="hidden space-y-6 animate-pop">
-            <div class="flex items-center justify-between">
+        <section id="view-dashboard" class="hidden animate-pop">
+            <div class="dash-header">
                 <div>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Your Analytics</h2>
-                    <p class="text-slate-500 text-sm">Track your mastery, pace, and accuracy across operations.</p>
+                    <h2>Your Analytics</h2>
+                    <p>Track your mastery, pace, and accuracy across operations.</p>
                 </div>
-                <button onclick="resetStatsPrompt()" class="text-xs font-semibold text-slate-400 hover:text-rose-600 px-3 py-1.5 rounded-xl hover:bg-rose-50 transition">
+                <button type="button" onclick="resetStatsPrompt()" class="btn-reset">
                     Reset Data
                 </button>
             </div>
 
             <!-- Overview Cards (Sprints, Accuracy, Fastest Pace, Avg Pace) -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
-                    <div class="flex items-center gap-2 text-slate-500 text-xs font-bold uppercase tracking-wider">
-                        <i class="fa-solid fa-fire text-amber-500 text-sm"></i>
+            <div class="dash-overview-grid">
+                <div class="stat-card">
+                    <div class="stat-card-top">
+                        <i class="fa-solid fa-fire text-amber-500"></i>
                         <span>Completed Sprints</span>
                     </div>
-                    <div id="dash-total-drills" class="text-2xl sm:text-3xl font-extrabold font-mono-num text-slate-900 mt-2">0 sets</div>
+                    <div id="dash-total-drills" class="stat-card-value font-mono-num text-slate-900">0 sets</div>
                 </div>
-                <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
-                    <div class="flex items-center gap-2 text-slate-500 text-xs font-bold uppercase tracking-wider">
-                        <i class="fa-solid fa-bullseye text-emerald-500 text-sm"></i>
+                <div class="stat-card">
+                    <div class="stat-card-top">
+                        <i class="fa-solid fa-bullseye text-emerald-600"></i>
                         <span>Overall Accuracy</span>
                     </div>
-                    <div id="dash-overall-accuracy" class="text-2xl sm:text-3xl font-extrabold font-mono-num text-emerald-600 mt-2">0%</div>
+                    <div id="dash-overall-accuracy" class="stat-card-value font-mono-num text-emerald-600">0%</div>
                 </div>
-                <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
-                    <div class="flex items-center gap-2 text-slate-500 text-xs font-bold uppercase tracking-wider">
-                        <i class="fa-solid fa-bolt text-amber-500 text-sm"></i>
+                <div class="stat-card">
+                    <div class="stat-card-top">
+                        <i class="fa-solid fa-bolt text-amber-500"></i>
                         <span>Fastest Pace</span>
                     </div>
-                    <div id="dash-fastest-speed" class="text-2xl sm:text-3xl font-extrabold font-mono-num text-slate-900 mt-2">No data</div>
+                    <div id="dash-fastest-speed" class="stat-card-value font-mono-num text-slate-900">No data</div>
                 </div>
-                <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
-                    <div class="flex items-center gap-2 text-slate-500 text-xs font-bold uppercase tracking-wider">
-                        <i class="fa-solid fa-gauge-high text-indigo-500 text-sm"></i>
+                <div class="stat-card">
+                    <div class="stat-card-top">
+                        <i class="fa-solid fa-gauge-high text-indigo-600"></i>
                         <span>Avg Pace</span>
                     </div>
-                    <div id="dash-avg-speed" class="text-2xl sm:text-3xl font-extrabold font-mono-num text-indigo-600 mt-2">No data</div>
+                    <div id="dash-avg-speed" class="stat-card-value font-mono-num text-indigo-600">No data</div>
                 </div>
             </div>
 
             <!-- Skill Breakdown Bars -->
-            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-5">
-                <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400">Operation Accuracy Breakdown</h3>
-                
+            <div class="breakdown-card">
+                <h3 class="breakdown-title">Operation Accuracy Breakdown</h3>
+
                 <!-- Addition -->
-                <div class="space-y-1.5">
-                    <div class="flex justify-between text-sm font-bold">
-                        <span class="text-slate-700"><i class="fa-solid fa-plus text-indigo-500 w-5"></i> Addition</span>
-                        <span id="dash-add-pct" class="font-mono-num text-slate-600">No data</span>
+                <div class="skill-row">
+                    <div class="skill-meta">
+                        <span class="skill-name"><i class="fa-solid fa-plus"></i> Addition</span>
+                        <span id="dash-add-pct" class="skill-pct font-mono-num">No data</span>
                     </div>
-                    <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
-                        <div id="dash-add-bar" class="bg-indigo-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    <div class="bar-track">
+                        <div id="dash-add-bar" class="bar-fill" style="width: 0%"></div>
                     </div>
                 </div>
 
                 <!-- Subtraction -->
-                <div class="space-y-1.5">
-                    <div class="flex justify-between text-sm font-bold">
-                        <span class="text-slate-700"><i class="fa-solid fa-minus text-indigo-500 w-5"></i> Subtraction</span>
-                        <span id="dash-sub-pct" class="font-mono-num text-slate-600">No data</span>
+                <div class="skill-row">
+                    <div class="skill-meta">
+                        <span class="skill-name"><i class="fa-solid fa-minus"></i> Subtraction</span>
+                        <span id="dash-sub-pct" class="skill-pct font-mono-num">No data</span>
                     </div>
-                    <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
-                        <div id="dash-sub-bar" class="bg-indigo-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    <div class="bar-track">
+                        <div id="dash-sub-bar" class="bar-fill" style="width: 0%"></div>
                     </div>
                 </div>
 
                 <!-- Multiplication -->
-                <div class="space-y-1.5">
-                    <div class="flex justify-between text-sm font-bold">
-                        <span class="text-slate-700"><i class="fa-solid fa-xmark text-indigo-500 w-5"></i> Multiplication</span>
-                        <span id="dash-mul-pct" class="font-mono-num text-slate-600">No data</span>
+                <div class="skill-row">
+                    <div class="skill-meta">
+                        <span class="skill-name"><i class="fa-solid fa-xmark"></i> Multiplication</span>
+                        <span id="dash-mul-pct" class="skill-pct font-mono-num">No data</span>
                     </div>
-                    <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
-                        <div id="dash-mul-bar" class="bg-indigo-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    <div class="bar-track">
+                        <div id="dash-mul-bar" class="bar-fill" style="width: 0%"></div>
                     </div>
                 </div>
 
                 <!-- Division -->
-                <div class="space-y-1.5">
-                    <div class="flex justify-between text-sm font-bold">
-                        <span class="text-slate-700"><i class="fa-solid fa-divide text-indigo-500 w-5"></i> Division</span>
-                        <span id="dash-div-pct" class="font-mono-num text-slate-600">No data</span>
+                <div class="skill-row">
+                    <div class="skill-meta">
+                        <span class="skill-name"><i class="fa-solid fa-divide"></i> Division</span>
+                        <span id="dash-div-pct" class="skill-pct font-mono-num">No data</span>
                     </div>
-                    <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
-                        <div id="dash-div-bar" class="bg-indigo-600 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                    <div class="bar-track">
+                        <div id="dash-div-bar" class="bar-fill" style="width: 0%"></div>
                     </div>
                 </div>
             </div>
 
-            <button onclick="showView('view-setup')" class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl shadow-md shadow-indigo-200 transition">
+            <button type="button" onclick="showView('view-setup')" class="btn-primary">
                 Start New Sprint
             </button>
         </section>
 
     </main>
 
-    <!-- Custom Confirmation Modal (Replaces native confirm/alert) -->
-    <div id="custom-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-xl border border-slate-100 space-y-4 animate-pop">
-            <h3 id="modal-title" class="text-lg font-extrabold text-slate-900">Reset Progress?</h3>
-            <p id="modal-desc" class="text-sm text-slate-500">This will permanently clear all your saved sprint stats and accuracy records.</p>
-            <div class="flex gap-3 pt-2">
-                <button onclick="closeModal()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-sm transition">Cancel</button>
-                <button id="modal-confirm-btn" class="flex-1 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-sm transition">Reset</button>
+    <!-- Custom Confirmation Modal -->
+    <div id="custom-modal" class="modal-backdrop">
+        <div class="modal-card animate-pop">
+            <h3 id="modal-title">Reset Progress?</h3>
+            <p id="modal-desc">This will permanently clear all your saved sprint stats and accuracy records.</p>
+            <div class="modal-actions">
+                <button type="button" onclick="closeModal()" class="btn-cancel">Cancel</button>
+                <button type="button" id="modal-confirm-btn" class="btn-confirm-danger">Reset</button>
             </div>
         </div>
     </div>
@@ -540,17 +1704,16 @@
             });
             document.getElementById(viewId).classList.remove('hidden');
 
-            // Update Nav Button Styling
             const btnTrain = document.getElementById('nav-btn-train');
             const btnStats = document.getElementById('nav-btn-stats');
 
             if (viewId === 'view-dashboard') {
                 loadDashboardStats();
-                btnStats.className = "px-3 py-1.5 rounded-xl text-sm font-semibold bg-indigo-50 text-indigo-700 transition";
-                btnTrain.className = "px-3 py-1.5 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100 transition";
+                btnStats.classList.add('active');
+                btnTrain.classList.remove('active');
             } else {
-                btnTrain.className = "px-3 py-1.5 rounded-xl text-sm font-semibold bg-indigo-50 text-indigo-700 transition";
-                btnStats.className = "px-3 py-1.5 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100 transition";
+                btnTrain.classList.add('active');
+                btnStats.classList.remove('active');
             }
         }
 
@@ -568,12 +1731,10 @@
             }
 
             document.querySelectorAll(groupClass).forEach(btn => {
-                btn.classList.remove('border-indigo-600', 'bg-indigo-50/60', 'text-indigo-700');
-                btn.classList.add('border-slate-200', 'text-slate-600');
+                btn.classList.remove('opt-selected');
             });
 
-            btnElement.classList.remove('border-slate-200', 'text-slate-600');
-            btnElement.classList.add('border-indigo-600', 'bg-indigo-50/60', 'text-indigo-700');
+            btnElement.classList.add('opt-selected');
         }
 
         // ==========================================
@@ -592,21 +1753,21 @@
                 else if (diff === 'medium') { a = randInt(12, 65, rngFn); b = randInt(12, 65, rngFn); }
                 else { a = randInt(45, 250, rngFn); b = randInt(45, 250, rngFn); }
                 ans = a + b;
-            } 
+            }
             else if (op === 'sub') {
                 symbol = '−';
                 if (diff === 'easy') { a = randInt(8, 25, rngFn); b = randInt(2, a - 1, rngFn); }
                 else if (diff === 'medium') { a = randInt(30, 99, rngFn); b = randInt(11, a - 5, rngFn); }
                 else { a = randInt(100, 400, rngFn); b = randInt(35, a - 15, rngFn); }
                 ans = a - b;
-            } 
+            }
             else if (op === 'mul') {
                 symbol = '×';
                 if (diff === 'easy') { a = randInt(2, 9, rngFn); b = randInt(2, 9, rngFn); }
                 else if (diff === 'medium') { a = randInt(6, 15, rngFn); b = randInt(4, 12, rngFn); }
                 else { a = randInt(12, 25, rngFn); b = randInt(6, 15, rngFn); }
                 ans = a * b;
-            } 
+            }
             else if (op === 'div') {
                 symbol = '÷';
                 let divisor, quotient;
@@ -705,7 +1866,7 @@
             input.disabled = false;
             questionLocked = false;
             const feedback = document.getElementById('question-feedback');
-            feedback.className = 'hidden text-lg font-bold rounded-xl px-4 py-3';
+            feedback.className = 'hidden feedback-banner';
             feedback.textContent = '';
             if (feedbackTimer) { clearTimeout(feedbackTimer); feedbackTimer = null; }
             input.focus();
@@ -721,7 +1882,7 @@
             input.disabled = true;
             const feedback = document.getElementById('question-feedback');
             feedback.textContent = `Skipped — the answer is ${currentAnswer}`;
-            feedback.className = 'text-lg font-bold rounded-xl px-4 py-3 bg-amber-50 text-amber-800 border border-amber-200';
+            feedback.className = 'feedback-banner feedback-skipped';
             feedbackTimer = setTimeout(() => nextProblem(), 900);
         }
 
@@ -745,6 +1906,8 @@
 
         function cancelDrill() {
             stopTimer();
+            if (feedbackTimer) { clearTimeout(feedbackTimer); feedbackTimer = null; }
+            questionLocked = false;
             showView('view-setup');
         }
 
@@ -757,10 +1920,9 @@
                 e.target.disabled = true;
                 correctAnswersCount++;
                 questionResults.push(true);
-                // Subtle green flash on correct
-                e.target.classList.add('border-emerald-500', 'bg-emerald-50');
+                e.target.classList.add('correct-flash');
                 setTimeout(() => {
-                    e.target.classList.remove('border-emerald-500', 'bg-emerald-50');
+                    e.target.classList.remove('correct-flash');
                     nextProblem();
                 }, 90);
             }
@@ -816,6 +1978,7 @@
                 document.getElementById('res-badge-title').innerText = badgeLabel;
                 document.getElementById('res-badge-icon').className = "fa-solid fa-gauge-high text-emerald-600";
             } else {
+                badgeLabel = "STEADY PROGRESS";
                 document.getElementById('res-badge-title').innerText = badgeLabel;
                 document.getElementById('res-badge-icon').className = "fa-solid fa-bullseye text-indigo-600";
             }
@@ -923,8 +2086,7 @@
         // Custom Modal Handlers
         function resetStatsPrompt() {
             const modal = document.getElementById('custom-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+            modal.classList.add('open');
             document.getElementById('modal-confirm-btn').onclick = () => {
                 localStorage.removeItem('mathsprinter_data');
                 loadDashboardStats();
@@ -934,15 +2096,14 @@
 
         function closeModal() {
             const modal = document.getElementById('custom-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+            modal.classList.remove('open');
         }
     </script>
 
     <!-- Vercel Web Analytics -->
     <script>
-        window.va = window.va || function () { 
-            (window.vaq = window.vaq || []).push(arguments); 
+        window.va = window.va || function () {
+            (window.vaq = window.vaq || []).push(arguments);
         };
 
         // ==========================================
@@ -950,7 +2111,8 @@
         // ==========================================
         function buildScoreCanvas() {
             const { dateLabel } = getDailySeedInfo();
-            const isoDate = new Date().toISOString().split('T')[0];
+            const localNow = new Date();
+            const isoDate = `${localNow.getFullYear()}-${String(localNow.getMonth() + 1).padStart(2, '0')}-${String(localNow.getDate()).padStart(2, '0')}`;
 
             const totalTimeText = document.getElementById('res-time')?.innerText || `${elapsedSeconds.toFixed(1)}s`;
             const accuracyText = document.getElementById('res-accuracy')?.innerText || `${Math.round((correctAnswersCount / selectedCount) * 100)}%`;
@@ -1086,6 +2248,7 @@
                     link.download = filename;
                     link.href = URL.createObjectURL(blob);
                     link.click();
+                    setTimeout(() => URL.revokeObjectURL(link.href), 1000);
                     return;
                 }
 
@@ -1105,6 +2268,7 @@
                 }
 
                 try {
+                    if (!window.ClipboardItem || !navigator.clipboard?.write) throw new Error('Image clipboard is not supported');
                     await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
                     const originalHTML = btn.innerHTML;
                     btn.innerHTML = '<i class="fa-solid fa-check"></i><span>Scorecard Copied!</span>';
@@ -1114,6 +2278,7 @@
                     link.download = filename;
                     link.href = URL.createObjectURL(blob);
                     link.click();
+                    setTimeout(() => URL.revokeObjectURL(link.href), 1000);
                 }
             }, 'image/png');
         }
