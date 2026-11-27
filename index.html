@@ -6,46 +6,46 @@
     <title>MathSprinter - Speed Mental Math Trainer</title>
     <meta name="google-site-verification" content="0m90F1jwbJmUpdy3tC_5cfTn8rKSTsqCSqasNHvfkXc" />
     <meta name="description" content="MathSprinter (Math Sprinter) is a free, zero-friction daily mental math speed trainer. Practice addition, subtraction, multiplication, and division sprints with no ads or sign-ups." />
-  <link rel="canonical" href="https://math-sprinter-sage.vercel.app/" />
+    <link rel="canonical" href="https://math-sprinter-sage.vercel.app/" />
 
- <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
-  <link rel="apple-touch-icon" href="/favicon-192.png" />
-  <meta name="application-name" content="MathSprinter" />
-  <meta name="theme-color" content="#4f46e5" />
-  <meta property="og:image" content="https://math-sprinter-sage.vercel.app/favicon-192.png" />
-  <meta name="twitter:card" content="summary" />
-  <meta property="og:site_name" content="MathSprinter" />
-  <meta property="og:title" content="MathSprinter - Speed Mental Math Trainer" />
-  <meta property="og:description" content="Test your arithmetic speed with daily global math sprints and custom practice drills. Fast, free, and ad-free." />
-  <meta property="og:url" content="https://math-sprinter-sage.vercel.app/" />
-  <meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
+    <link rel="apple-touch-icon" href="/favicon-192.png" />
+    <meta name="application-name" content="MathSprinter" />
+    <meta name="theme-color" content="#4f46e5" />
+    <meta property="og:image" content="https://math-sprinter-sage.vercel.app/favicon-192.png" />
+    <meta name="twitter:card" content="summary" />
+    <meta property="og:site_name" content="MathSprinter" />
+    <meta property="og:title" content="MathSprinter - Speed Mental Math Trainer" />
+    <meta property="og:description" content="Test your arithmetic speed with daily global math sprints and custom practice drills. Fast, free, and ad-free." />
+    <meta property="og:url" content="https://math-sprinter-sage.vercel.app/" />
+    <meta property="og:type" content="website" />
 
-  <script type="application/ld+json">
-  [
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "MathSprinter",
-      "alternateName": ["Math Sprinter", "MathSprinter App"],
-      "url": "https://math-sprinter-sage.vercel.app/"
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "MathSprinter",
-      "url": "https://math-sprinter-sage.vercel.app/",
-      "applicationCategory": "EducationalApplication",
-      "operatingSystem": "All",
-      "description": "Free, ad-free daily mental math speed trainer for addition, subtraction, multiplication, and division.",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
+    <script type="application/ld+json">
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "MathSprinter",
+        "alternateName": ["Math Sprinter", "MathSprinter App"],
+        "url": "https://math-sprinter-sage.vercel.app/"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "MathSprinter",
+        "url": "https://math-sprinter-sage.vercel.app/",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "All",
+        "description": "Free, ad-free daily mental math speed trainer for addition, subtraction, multiplication, and division.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
       }
-    }
-  ]
-  </script>
+    ]
+    </script>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
@@ -304,7 +304,7 @@
                     <p class="text-slate-500 text-sm mt-1">Your performance metrics have been saved locally on this device.</p>
                 </div>
 
-               <!-- 3 Key Stat Cards -->
+                <!-- 3 Key Stat Cards -->
                 <div class="grid grid-cols-3 gap-2 sm:gap-4 pt-2">
                     <div class="p-3 sm:p-4 rounded-2xl bg-slate-50 border border-slate-200/70 flex flex-col justify-center">
                         <span class="block text-[10px] sm:text-xs font-semibold text-slate-400 uppercase whitespace-nowrap">Time</span>
@@ -339,7 +339,8 @@
                         </span>
                     </div>
                 </div>
-<!-- Share Scorecard Row -->
+
+                <!-- Share Scorecard Row -->
                 <div class="flex flex-col sm:flex-row gap-3 pt-2">
                     <button id="share-score-btn" onclick="shareScoreCard(false)" class="flex-1 py-3.5 px-6 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-bold rounded-2xl shadow-md shadow-emerald-200 transition flex items-center justify-center gap-2">
                         <i class="fa-solid fa-share-nodes"></i>
@@ -350,6 +351,7 @@
                         <span>Save PNG</span>
                     </button>
                 </div>
+
                 <!-- Action Buttons -->
                 <div class="flex flex-col sm:flex-row gap-3 pt-2">
                     <button onclick="retryLastMode()" class="flex-1 py-3.5 px-6 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl shadow-md shadow-indigo-200 transition flex items-center justify-center gap-2">
@@ -371,28 +373,42 @@
             <div class="flex items-center justify-between">
                 <div>
                     <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Your Analytics</h2>
-                    <p class="text-slate-500 text-sm">Track your mastery and accuracy across operations.</p>
+                    <p class="text-slate-500 text-sm">Track your mastery, pace, and accuracy across operations.</p>
                 </div>
                 <button onclick="resetStatsPrompt()" class="text-xs font-semibold text-slate-400 hover:text-rose-600 px-3 py-1.5 rounded-xl hover:bg-rose-50 transition">
                     Reset Data
                 </button>
             </div>
 
-            <!-- Overview Cards -->
-            <div class="grid grid-cols-2 gap-4">
+            <!-- Overview Cards (Sprints, Accuracy, Fastest Pace, Avg Pace) -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
-                    <div class="flex items-center gap-2.5 text-slate-500 text-xs font-bold uppercase tracking-wider">
-                        <i class="fa-solid fa-fire text-amber-500 text-base"></i>
+                    <div class="flex items-center gap-2 text-slate-500 text-xs font-bold uppercase tracking-wider">
+                        <i class="fa-solid fa-fire text-amber-500 text-sm"></i>
                         <span>Completed Sprints</span>
                     </div>
-                    <div id="dash-total-drills" class="text-3xl font-extrabold font-mono-num text-slate-900 mt-2">0 sets</div>
+                    <div id="dash-total-drills" class="text-2xl sm:text-3xl font-extrabold font-mono-num text-slate-900 mt-2">0 sets</div>
                 </div>
                 <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
-                    <div class="flex items-center gap-2.5 text-slate-500 text-xs font-bold uppercase tracking-wider">
-                        <i class="fa-solid fa-bullseye text-emerald-500 text-base"></i>
+                    <div class="flex items-center gap-2 text-slate-500 text-xs font-bold uppercase tracking-wider">
+                        <i class="fa-solid fa-bullseye text-emerald-500 text-sm"></i>
                         <span>Overall Accuracy</span>
                     </div>
-                    <div id="dash-overall-accuracy" class="text-3xl font-extrabold font-mono-num text-emerald-600 mt-2">0%</div>
+                    <div id="dash-overall-accuracy" class="text-2xl sm:text-3xl font-extrabold font-mono-num text-emerald-600 mt-2">0%</div>
+                </div>
+                <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
+                    <div class="flex items-center gap-2 text-slate-500 text-xs font-bold uppercase tracking-wider">
+                        <i class="fa-solid fa-bolt text-amber-500 text-sm"></i>
+                        <span>Fastest Pace</span>
+                    </div>
+                    <div id="dash-fastest-speed" class="text-2xl sm:text-3xl font-extrabold font-mono-num text-slate-900 mt-2">No data</div>
+                </div>
+                <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm">
+                    <div class="flex items-center gap-2 text-slate-500 text-xs font-bold uppercase tracking-wider">
+                        <i class="fa-solid fa-gauge-high text-indigo-500 text-sm"></i>
+                        <span>Avg Pace</span>
+                    </div>
+                    <div id="dash-avg-speed" class="text-2xl sm:text-3xl font-extrabold font-mono-num text-indigo-600 mt-2">No data</div>
                 </div>
             </div>
 
@@ -463,13 +479,6 @@
             </div>
         </div>
     </div>
-
-    <style>
-      /* Touch devices (including iPads): use the in-app keypad. Desktop: physical keyboard. */
-      #touch-keypad { display: none; }
-      @media (pointer: coarse) { #touch-keypad { display: grid; } #answer-input { inputmode: none; } }
-      @media (pointer: fine) { #touch-keypad { display: none !important; } }
-    </style>
 
     <script>
         // ==========================================
@@ -772,7 +781,6 @@
             input.value = input.value.slice(0, -1);
         }
 
-
         // Use the custom keypad on touch-first devices; keep physical keyboard input on desktop.
         if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) {
             document.getElementById('answer-input').setAttribute('inputmode', 'none');
@@ -787,7 +795,8 @@
 
             elapsedSeconds = Math.max((performance.now() - startTime) / 1000, 0.1);
             const totalTime = elapsedSeconds;
-            const avgSpeed = (totalTime / selectedCount).toFixed(1);
+            const avgSpeedNum = totalTime / selectedCount;
+            const avgSpeed = avgSpeedNum.toFixed(1);
             const accuracy = Math.round((correctAnswersCount / selectedCount) * 100);
 
             const mins = Math.floor(totalTime / 60).toString().padStart(2, '0');
@@ -798,12 +807,11 @@
             document.getElementById('res-speed').innerText = `${avgSpeed}s/Q`;
 
             let badgeLabel = "STEADY PROGRESS";
-            // Dynamic Badge Logic
-            if (accuracy >= 90 && avgSpeed <= 2.2) {
+            if (accuracy >= 90 && avgSpeedNum <= 2.2) {
                 badgeLabel = "LIGHTNING GENIUS";
                 document.getElementById('res-badge-title').innerText = badgeLabel;
                 document.getElementById('res-badge-icon').className = "fa-solid fa-bolt text-amber-500";
-            } else if (accuracy >= 80 && avgSpeed <= 3.8) {
+            } else if (accuracy >= 80 && avgSpeedNum <= 3.8) {
                 badgeLabel = "SPEED MASTER";
                 document.getElementById('res-badge-title').innerText = badgeLabel;
                 document.getElementById('res-badge-icon').className = "fa-solid fa-gauge-high text-emerald-600";
@@ -817,18 +825,19 @@
 
             if (isDailyMode) {
                 dailyProblems.forEach((p, idx) => {
-                    saveToLocalStorage(p.op, 1, questionResults[idx] ? 1 : 0, idx === 0);
+                    saveToLocalStorage(p.op, 1, questionResults[idx] ? 1 : 0, idx === 0, idx === 0 ? avgSpeedNum : null);
                 });
             } else {
-                saveToLocalStorage(selectedOp, selectedCount, correctAnswersCount, true);
+                saveToLocalStorage(selectedOp, selectedCount, correctAnswersCount, true, avgSpeedNum);
             }
             showView('view-results');
         }
 
-        function saveToLocalStorage(op, totalQuestions, correctCount, incrementSet = true) {
+        function saveToLocalStorage(op, totalQuestions, correctCount, incrementSet = true, paceSecPerQ = null) {
             try {
-                let stats = JSON.parse(localStorage.getItem('mathsprinter_data')) || {
+                const stats = JSON.parse(localStorage.getItem('mathsprinter_data')) || {
                     totalDrills: 0,
+                    paces: [],
                     skills: {
                         add: { attempted: 0, correct: 0 },
                         sub: { attempted: 0, correct: 0 },
@@ -837,7 +846,13 @@
                     }
                 };
 
+                if (!Array.isArray(stats.paces)) stats.paces = [];
                 if (incrementSet) stats.totalDrills += 1;
+                if (typeof paceSecPerQ === 'number' && !Number.isNaN(paceSecPerQ)) {
+                    stats.paces.push(Number(paceSecPerQ.toFixed(1)));
+                    if (stats.paces.length > 100) stats.paces.shift();
+                }
+
                 stats.skills[op].attempted += totalQuestions;
                 stats.skills[op].correct += correctCount;
 
@@ -851,6 +866,7 @@
             try {
                 const stats = JSON.parse(localStorage.getItem('mathsprinter_data')) || {
                     totalDrills: 0,
+                    paces: [],
                     skills: {
                         add: { attempted: 0, correct: 0 },
                         sub: { attempted: 0, correct: 0 },
@@ -881,6 +897,24 @@
 
                 const overallPct = grandAttempted > 0 ? Math.round((grandCorrect / grandAttempted) * 100) : 0;
                 document.getElementById('dash-overall-accuracy').innerText = `${overallPct}%`;
+
+                const paces = Array.isArray(stats.paces)
+                    ? stats.paces.filter(n => typeof n === 'number' && !Number.isNaN(n))
+                    : [];
+                const fastestEl = document.getElementById('dash-fastest-speed');
+                const avgEl = document.getElementById('dash-avg-speed');
+
+                if (fastestEl && avgEl) {
+                    if (paces.length > 0) {
+                        const fastest = Math.min(...paces);
+                        const avg = paces.reduce((sum, val) => sum + val, 0) / paces.length;
+                        fastestEl.innerText = `${fastest.toFixed(1)}s/Q`;
+                        avgEl.innerText = `${avg.toFixed(1)}s/Q`;
+                    } else {
+                        fastestEl.innerText = 'No data';
+                        avgEl.innerText = 'No data';
+                    }
+                }
             } catch (err) {
                 console.error("Failed to load stats:", err);
             }
@@ -910,14 +944,14 @@
         window.va = window.va || function () { 
             (window.vaq = window.vaq || []).push(arguments); 
         };
-// ==========================================
+
+        // ==========================================
         // LIGHT-MODE SCORECARD GENERATOR & SHARING
         // ==========================================
         function buildScoreCanvas() {
             const { dateLabel } = getDailySeedInfo();
             const isoDate = new Date().toISOString().split('T')[0];
 
-            // Pull exact values from your active sprint state & DOM
             const totalTimeText = document.getElementById('res-time')?.innerText || `${elapsedSeconds.toFixed(1)}s`;
             const accuracyText = document.getElementById('res-accuracy')?.innerText || `${Math.round((correctAnswersCount / selectedCount) * 100)}%`;
             const paceText = document.getElementById('res-speed')?.innerText || `${(elapsedSeconds / selectedCount).toFixed(1)}s/Q`;
@@ -932,7 +966,6 @@
             canvas.height = 640;
             const ctx = canvas.getContext('2d');
 
-            // 1. Clean Light Background (Matches bg-white / border-slate-200)
             ctx.fillStyle = '#ffffff';
             ctx.strokeStyle = '#e2e8f0';
             ctx.lineWidth = 4;
@@ -941,8 +974,7 @@
             ctx.fill();
             ctx.stroke();
 
-            // 2. Top Brand Header (MathSprinter + Mode Pill)
-            ctx.fillStyle = '#4f46e5'; // indigo-600
+            ctx.fillStyle = '#4f46e5';
             ctx.beginPath();
             ctx.roundRect(44, 38, 42, 42, 12);
             ctx.fill();
@@ -960,7 +992,6 @@
             ctx.fillStyle = '#4f46e5';
             ctx.fillText('Sprinter', 98 + mathWidth, 67);
 
-            // Right Mode Pill
             ctx.fillStyle = '#eef2ff';
             ctx.beginPath();
             ctx.roundRect(536, 40, 320, 38, 19);
@@ -970,8 +1001,7 @@
             ctx.textAlign = 'center';
             ctx.fillText(modeTitle, 696, 65);
 
-            // 3. Main Hero Card (Total Time + Global Standing)
-            ctx.fillStyle = '#f8fafc'; // slate-50
+            ctx.fillStyle = '#f8fafc';
             ctx.strokeStyle = '#e2e8f0';
             ctx.lineWidth = 2;
             ctx.beginPath();
@@ -987,7 +1017,6 @@
             ctx.font = '700 96px "JetBrains Mono", monospace';
             ctx.fillText(totalTimeText, 450, 252);
 
-            // Global Standing Pill inside Hero Card
             ctx.fillStyle = '#4f46e5';
             ctx.beginPath();
             ctx.roundRect(275, 282, 350, 42, 14);
@@ -996,7 +1025,6 @@
             ctx.font = '700 18px Inter, system-ui, sans-serif';
             ctx.fillText(`⚡ Average pace: ${paceTextForCard}`, 450, 309);
 
-            // 4. Three Stat Boxes (Solved, Accuracy, Avg Pace)
             const stats = [
                 { label: 'SOLVED', value: `${correctAnswersCount}/${selectedCount}`, color: '#0f172a' },
                 { label: 'ACCURACY', value: accuracyText, color: '#059669' },
@@ -1021,7 +1049,6 @@
                 ctx.fillText(stat.value, x + 126, 472);
             });
 
-            // 5. Wordle-Style Question Strip (Green = Solved, Amber = Skipped)
             const results = (typeof questionResults !== 'undefined' && questionResults.length > 0)
                 ? questionResults
                 : Array.from({ length: selectedCount }, (_, idx) => idx < correctAnswersCount);
@@ -1039,7 +1066,6 @@
                 startX += boxSize + gap;
             });
 
-            // 6. Footer URL Stamp for Organic Growth
             ctx.fillStyle = '#64748b';
             ctx.font = '600 17px Inter, system-ui, sans-serif';
             ctx.fillText('Beat my time at  math-sprinter-sage.vercel.app', 450, 598);
@@ -1065,7 +1091,6 @@
 
                 const file = new File([blob], filename, { type: 'image/png' });
 
-                // Mobile native share sheet (shares PNG image + clickable URL)
                 if (navigator.canShare && navigator.canShare({ files: [file] })) {
                     try {
                         await navigator.share({
@@ -1079,7 +1104,6 @@
                     }
                 }
 
-                // Desktop clipboard copy (paste directly into WhatsApp Web, Discord, X)
                 try {
                     await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
                     const originalHTML = btn.innerHTML;
@@ -1092,7 +1116,7 @@
                     link.click();
                 }
             }, 'image/png');
-        }    
+        }
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
 </body>
